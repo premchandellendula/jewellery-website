@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
-const { JWT_SECRET } = require('../config');
+const { JWT_SECRET } = require('../../config');
 
-function authMiddleware(req, res, next){
+function adminMiddleware(req, res, next){
     const authHeader = req.headers.authorization;
 
     if(!authHeader || !authHeader.startsWith('Bearer ')){
@@ -28,7 +28,5 @@ function authMiddleware(req, res, next){
         res.status(401).json({
             message: 'Token is not valid' 
         });
-      }
+    }
 }
-
-module.exports = authMiddleware;

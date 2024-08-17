@@ -1,5 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
-const { JWT_SECRET } = require("../config");
+const { JWT_SECRET } = require("../../config");
 const express = require('express')
 const zod = require('zod');
 const jwt = require('jsonwebtoken')

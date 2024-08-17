@@ -125,4 +125,115 @@ router.delete('/product/:id', async (req, res) => {
     }
 })
 
+
+/*
+
+    **************************WORKS**************************
+
+*/
+
+
+const workBody = zod.object({
+    name: zod.string(),
+    description: zod.string(),
+    price: zod.number().refine((val) => val % 1 !== 0, {
+        message: "Price must be a float number",
+    }),
+    imageUrl: zod.string()
+})
+
+router.post('/work', async (req, res) => {
+    const result = workBody.safeParse(req.body);
+
+    if(!result.success){
+        return res.status(400).json({
+            message: "Incorrect inputs",
+            error: result.error.errors
+        })
+    }
+
+    const {name, description, price, imageUrl} = req.body;
+
+    try{
+        const product = await prisma.works.create({
+            data: {
+                name: name,
+                description: description,
+                price: price,
+                imageUrl: imageUrl
+            }
+        })
+
+        return res.status(201).json({
+            product
+        })
+    }catch(e){
+        return res.status(500).json({
+            message: "error creating product",
+            error: e.message
+        })
+    }
+})
+
+const workPutBody = zod.object({
+    description: zod.string().optional(),
+    price: zod.number().refine((val) => val % 1 !== 0, {
+        message: "Price must be a float number",
+    }).optional(),
+    imageUrl: zod.string().optional()
+})
+
+router.put('/work/:id', async (req, res) => {
+    const result = workPutBody.safeParse(req.body);
+
+    if(!result.success){
+        return res.status(400).json({
+            message: "Incorrect inputs"
+        })
+    }
+
+    const {description, price, imageUrl} = req.body;
+    const productId = parseInt(req.params.id, 10);
+
+    try{
+        const product = await prisma.works.update({
+            where : {
+                id: productId
+            },
+            data : {
+                description,
+                price,
+                imageUrl
+            }
+        })
+
+        return res.status(200).json({
+            product
+        })
+    }catch(e){
+        return res.status(500).json({
+            message: "Error updating product"
+        })
+    }
+})
+
+router.delete('/work/:id', async (req, res) => {
+    const productId = parseInt(req.params.id, 10);
+    try{
+        const product = await prisma.works.delete({
+            where: {
+                id: productId
+            }
+        })
+
+        return res.json({
+            product
+        })
+    }catch(e){
+        return res.status(500).json({
+            message: "Error deleting the product"
+        })
+    }
+})
+
 module.exports = router;

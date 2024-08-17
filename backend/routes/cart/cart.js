@@ -3,7 +3,7 @@ const router = express.Router();
 const zod = require('zod');
 
 const { PrismaClient } = require('@prisma/client');
-const authMiddleware = require('../middleware/auth');
+const authMiddleware = require('../middleware/userMiddleware');
 const prisma = new PrismaClient();
 
 const cartBody = zod.object({
@@ -18,7 +18,7 @@ router.post('/', authMiddleware, async (req, res) => {
     // console.log(productId);
     // console.log(quantity);
     try {
-        console.log('hwllo')
+        // console.log('hwllo')
         const cartItem = await prisma.cart.create({
             data: { 
                 userId: req.userId, 
@@ -49,6 +49,11 @@ router.get('/', authMiddleware, async (req, res) => {
             message: "Server error"
         })
     }
+})
+
+router.delete('/:id', authMiddleware, async (req, res) => {
+    const userId = req.userId;
+    const {quantity} = req.body;
 })
 
 module.exports = router;
