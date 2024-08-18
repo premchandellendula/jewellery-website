@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import NavList from './NavList'
+import NavListAdmin from './NavlistAdmin'
 
-const Appbar = () => {
+const AppBarAdmin
+ = () => {
   return (
     <div className={`w-full flex justify-between px-6 py-4 z-50 border-b shadow-md bg-white`}>
         <Link to={'/'} className='flex items-center'>
@@ -11,19 +12,28 @@ const Appbar = () => {
             </div>
         </Link>
 
-        <NavList />
+        <NavListAdmin />
 
         <div className='flex justify-center'>
-            <Link to={"/signin"}>
+            {/* <Link to={"/signin"}>
               <button type="button" className="text-black bg-slate-200 hover:bg-slate-300 focus:outline-none font-medium rounded-full text-base px-5 py-2.5 text-center me-2 w-28 shadow-md">Sign In</button>
-            </Link>
+            </Link> */}
 
             <Link to={"/signup"}>
-              <button type="button" className="text-white bg-violet-600 hover:bg-violet-800 focus:outline-none font-medium rounded-full text-base px-5 py-2.5 text-center me-2 w-28 shadow-md">Sign Up</button>
+              <div className='bg-gray-400 rounded-full p-2'>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg" 
+                  width="22" 
+                  height="22" 
+                  viewBox="0 0 24 24" 
+                  style={{fill: 'rgba(255, 255, 255)', transform: '', msFilter: ''}}>
+                    <path d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm9 11v-1a7 7 0 0 0-7-7h-4a7 7 0 0 0-7 7v1h2v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1z"></path>
+                </svg>
+              </div>
             </Link>
         </div>
     </div>
   )
 }
 
-export default Appbar
+export default AppBarAdmin

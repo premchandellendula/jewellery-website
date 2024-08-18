@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Appbar from '../../components/appbar/Appbar'
 import Footer from '../../components/footer/Footer'
 import GalleryCard from '../../components/gallery/GalleryCard'
 
@@ -12,14 +11,17 @@ import braceletImg2 from '../../images/gallery/bracelet2.jpg'
 import necklaceImg1 from '../../images/gallery/necklace1.jpg'
 import necklaceImg2 from '../../images/gallery/necklace2.jpg'
 import necklaceImg3 from '../../images/gallery/necklace3.jpg'
+import AppBarAdmin from '../../components/admin/appbaradmin/AppBarAdmin'
 
-const Gallery = () => {
+const AdminGallery = () => {
   const galleryList = [
     ringImg1, ringImg2, braceletImg2, bangleImg2, braceletImg1, bangleImg1, necklaceImg1, necklaceImg2, necklaceImg3
   ]
   return (
     <div>
-      <Appbar />
+      <AppBarAdmin />
+
+      <AddImage />
 
       <div className='grid grid-cols-3 w-[80%] m-auto gap-5 p-10 my-10'>
         {galleryList.map((image, idx) => <GalleryCard key={idx} img={image} />)}
@@ -30,4 +32,10 @@ const Gallery = () => {
   )
 }
 
-export default Gallery
+function AddImage(){
+  return <div className='w-[74%] m-auto text-right pt-10'>
+    <button type="button" className="text-white bg-violet-600 hover:bg-violet-800 focus:outline-none font-medium rounded-lg text-base px-5 py-2.5 me-2 mb-2 shadow-md w-32">Add Image</button>
+  </div>
+}
+
+export default AdminGallery

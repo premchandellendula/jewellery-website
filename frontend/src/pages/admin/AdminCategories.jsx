@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
-import Appbar from '../../components/appbar/Appbar'
-import Footer from '../../components/footer/Footer'
 
 import ringImg from '../../images/gallery/ring1.jpg'
 import bangleImg from '../../images/gallery/banlge1.jpg'
 import braceletImg from '../../images/gallery/bracelet1.jpg'
 import necklateImg from '../../images/gallery/necklace1.jpg'
 import { Link } from 'react-router-dom'
+import AppBarAdmin from '../../components/admin/appbaradmin/AppBarAdmin'
+import Footer from '../../components/footer/Footer'
 
-const Categories = () => {
+const AdminCategories = () => {
 
   const categoriesList = [
     ringImg,
@@ -18,7 +18,9 @@ const Categories = () => {
   ]
   return (
     <div>
-      <Appbar />
+      <AppBarAdmin />
+
+      <AddCategory />
 
       <div className='grid grid-cols-3 w-[85%] m-auto gap-y-10 my-20'>
         {categoriesList.map((img, idx) => <CategoryCard key={idx} img={img}/>)}
@@ -43,4 +45,10 @@ function CategoryCard({img}){
     </div>
 }
 
-export default Categories
+function AddCategory(){
+  return <div className='w-[83%] border border-gray-600 m-auto text-right pt-10'>
+    <button type="button" className="text-white bg-violet-600 hover:bg-violet-800 focus:outline-none font-medium rounded-lg text-base px-5 py-2.5 me-2 mb-2 shadow-md w-36">Add Category</button>
+  </div>
+}
+
+export default AdminCategories

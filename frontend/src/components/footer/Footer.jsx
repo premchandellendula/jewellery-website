@@ -38,7 +38,7 @@ const Footer = () => {
                 Bangles
                 </p>
                 <p className="text-[16px] hover:text-violet-600 cursor-pointer text-[#646464] font-medium">
-                Braclets
+                Bracelets
                 </p>
                 <p className="text-[16px] hover:text-violet-600 cursor-pointer text-[#646464] font-medium">
                 Chains

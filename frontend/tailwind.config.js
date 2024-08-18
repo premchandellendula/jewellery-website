@@ -7,7 +7,8 @@ export default {
     theme: {
         extend: {},
         fontFamily: {
-            sans: ['Inter', 'Arial', 'Roboto']
+            sans: ['Inter', 'Arial', 'Roboto'],
+            moderustic: ['Moderustic']
         },
     },
     plugins: [],

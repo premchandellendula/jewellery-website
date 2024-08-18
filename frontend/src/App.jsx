@@ -10,6 +10,9 @@ import Products from './pages/product/Products'
 import AdminLanding from './pages/admin/AdminLanding'
 import AddProduct from './pages/admin/AddProduct'
 import AddWorks from './pages/admin/AddWorks'
+import AdminCategories from './pages/admin/AdminCategories'
+import AdminGallery from './pages/admin/AdminGallery'
+import AdminWorks from './pages/admin/AdminWorks'
 
 function App() {
 
@@ -28,6 +31,9 @@ function App() {
 
 
           <Route path='/admin/' element={<AdminLanding />} />
+          <Route path='/admin/categories' element={<AdminCategories />} />
+          <Route path='/admin/gallery' element={<AdminGallery />} />
+          <Route path='/admin/works' element={<AdminWorks />} />
           <Route path='/admin/product' element={<AddProduct />} />
           <Route path='/admin/work' element={<AddWorks />} />
         </Routes>
