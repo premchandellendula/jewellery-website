@@ -19,7 +19,7 @@ const Testimonials = () => {
         <div className='my-16'>
             <h2 className='text-center text-4xl font-bold'>Testimonials</h2>
             <div className='flex w-[87%] m-auto my-10'>
-                {testimonials.map((t, id) => <TestimonialCard name={t.name} place={t.place} />)}
+                {testimonials.map((t, id) => <TestimonialCard key={id} name={t.name} place={t.place} />)}
             </div>
         </div>
     )

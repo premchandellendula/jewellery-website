@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const PasswordInput = ({label, placeholder}) => {
+const PasswordInput = ({label, placeholder, onChange}) => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
     function togglePasswordVisibility(){
@@ -14,6 +14,7 @@ const PasswordInput = ({label, placeholder}) => {
             </div>
             <div className='relative'>
                 <input 
+                onChange={onChange}
                 type={isPasswordVisible ? 'text' : 'password'} 
                 placeholder={placeholder} 
                 className='w-full h-10 px-2 py-1 border rounded border-slate-200 focus:ring-2 focus:ring-violet-300 focus:outline-none' />

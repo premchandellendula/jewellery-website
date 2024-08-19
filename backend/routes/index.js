@@ -1,11 +1,11 @@
 const express = require('express')
 
 const router = express.Router()
-const userRouter = require('./user');
-const productRouter = require('./products');
-const categoryRouter = require('./category');
-const cartRouter = require('./cart');
-const adminRouter = require('./admin');
+const userRouter = require('./user/user');
+const productRouter = require('./product/products');
+const categoryRouter = require('./category/category');
+const cartRouter = require('./cart/cart');
+const adminRouter = require('./admin/admin');
 
 router.use('/user', userRouter);
 router.use('/product', productRouter);
