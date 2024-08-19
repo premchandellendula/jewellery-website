@@ -46,7 +46,7 @@ function CategoryCard({img}){
 }
 
 function AddCategory(){
-  return <div className='w-[83%] border border-gray-600 m-auto text-right pt-10'>
+  return <div className='w-[83%] m-auto text-right pt-10'>
     <button type="button" className="text-white bg-violet-600 hover:bg-violet-800 focus:outline-none font-medium rounded-lg text-base px-5 py-2.5 me-2 mb-2 shadow-md w-36">Add Category</button>
   </div>
 }

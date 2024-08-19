@@ -21,7 +21,7 @@ const Gallery = () => {
     <div>
       <Appbar />
 
-      <div className='grid grid-cols-3 w-[80%] m-auto gap-5 p-10 my-10'>
+      <div className='grid grid-cols-3 w-[87%] m-auto gap-5 p-10 my-10'>
         {galleryList.map((image, idx) => <GalleryCard key={idx} img={image} />)}
       </div>
 

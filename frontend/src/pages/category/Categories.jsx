@@ -20,7 +20,7 @@ const Categories = () => {
     <div>
       <Appbar />
 
-      <div className='grid grid-cols-3 w-[85%] m-auto gap-y-10 my-20'>
+      <div className='grid grid-cols-3 w-[87%] m-auto gap-y-10 my-20'>
         {categoriesList.map((img, idx) => <CategoryCard key={idx} img={img}/>)}
       </div>
 

@@ -23,7 +23,7 @@ const AdminGallery = () => {
 
       <AddImage />
 
-      <div className='grid grid-cols-3 w-[80%] m-auto gap-5 p-10 my-10'>
+      <div className='grid grid-cols-3 w-[87%] m-auto gap-5 p-10 my-10'>
         {galleryList.map((image, idx) => <GalleryCard key={idx} img={image} />)}
       </div>
 
@@ -33,7 +33,7 @@ const AdminGallery = () => {
 }
 
 function AddImage(){
-  return <div className='w-[74%] m-auto text-right pt-10'>
+  return <div className='w-[77%] m-auto text-right pt-10'>
     <button type="button" className="text-white bg-violet-600 hover:bg-violet-800 focus:outline-none font-medium rounded-lg text-base px-5 py-2.5 me-2 mb-2 shadow-md w-32">Add Image</button>
   </div>
 }
