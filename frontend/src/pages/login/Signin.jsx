@@ -5,10 +5,12 @@ import Button from '../../components/login/Button'
 import BottomWarning from '../../components/login/BottomWarning'
 import PasswordInput from '../../components/login/PasswordInput'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const Signin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   return (
     <div className='h-screen bg-gray-100 flex justify-center'>
@@ -40,7 +42,12 @@ const Signin = () => {
               password
             })
 
-            console.log(response.data.token)
+            // console.log(response.data.token)
+            localStorage.setItem(response.data.token);
+
+            if(email && password){
+              navigate('/homepage')
+            }
            }}
           />
           <BottomWarning label={"Doesn't have an account?"} buttonText={"Sign up"} to={"/signup"} />

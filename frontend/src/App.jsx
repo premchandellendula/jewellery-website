@@ -13,6 +13,7 @@ import AddWorks from './pages/admin/AddWorks'
 import AdminCategories from './pages/admin/AdminCategories'
 import AdminGallery from './pages/admin/AdminGallery'
 import AdminWorks from './pages/admin/AdminWorks'
+import Homepage from './pages/homepage/Homepage'
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Landing />} />
+          <Route path='/homepage' element={<Homepage />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/signin' element={<Signin />} />
           <Route path='/about' element={<About />} />

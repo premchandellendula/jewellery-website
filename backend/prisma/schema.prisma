@@ -29,13 +29,14 @@ model Product {
   price        Float
   imageUrl     String
   categoryId   Int
-  category     Category  @relation(fields: [categoryId], references: [id])
+  category     Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   cartItems    Cart[] 
 }
 
 model Category {
   id        Int      @id  @default(autoincrement())
   name      String   @unique
+  imageUrl  String
   products  Product[]
 }
 
@@ -54,7 +55,7 @@ model Cart {
   productId Int
   quantity  Int      @default(1)
   user      User     @relation(fields: [userId], references: [id])
-  product   Product  @relation(fields: [productId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 enum Role {

@@ -4,11 +4,12 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 router.post('/category', async (req, res) => {
-    const {name} = req.body;
+    const {name, imageUrl} = req.body;
     try{
         const category = await prisma.category.create({
             data: {
-                name: name
+                name: name,
+                imageUrl: imageUrl
             }
         })
 
@@ -57,7 +58,11 @@ router.delete('/category/:id', async (req, res) => {
         })
     }catch(e){
         res.status(500).json({
-            message: "Failed to delete coategory"
+            message: "Failed to delete category",
+            err: e.message
+            
         })
     }
 })
+
+module.exports = router;
