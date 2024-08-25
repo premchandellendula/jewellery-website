@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Footer from '../../components/footer/Footer'
 import GalleryCard from '../../components/gallery/GalleryCard'
+import axios from 'axios'
 
 import ringImg1 from '../../images/gallery/ring1.jpg'
 import ringImg2 from '../../images/gallery/ring2.jpg'
@@ -35,6 +36,7 @@ const AdminGallery = () => {
 
 function AddImage(){
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
+  const [name, setName] = useState('');
   const [imageUrl, setImageUrl] = useState('');
 
   return <div className='w-[77%] m-auto text-right pt-10'>
@@ -65,6 +67,14 @@ function AddImage(){
 
           <div>
             <InputBox
+              label={"Name"}
+              placeholder={"Rings, Bangles, etc.,"}
+              onChange={(e) => {
+                setName(e.target.value)
+              }}
+            />
+
+            <InputBox
               label={"Image Url"}
               placeholder={"https://google.com/rings"}
               onChange={(e) => {
@@ -74,6 +84,14 @@ function AddImage(){
           </div>
 
           <button
+            onClick={async () => {
+              const response = await axios.post("http://localhost:3000/api/v1/admin/gallery", {
+                name, 
+                imageUrl
+              })
+
+              console.log(response.data)
+            }}
             type="button" 
             className="text-white bg-violet-600 hover:bg-violet-800 focus:outline-none font-medium rounded-lg text-base px-5 py-2.5 mt-2 mb-2 shadow-md w-[20%]">Add</button>
         </div>

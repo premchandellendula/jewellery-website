@@ -253,7 +253,7 @@ router.get('/works', async (req, res) => {
 
 /*
 
-    **************************WORKS**************************
+    **************************Gallery**************************
 
 */
 
@@ -284,8 +284,23 @@ router.post('/gallery', async (req, res) => {
         })
     }catch(e){
         return res.status(500).json({
-            message: "error creating product",
+            message: "error creating image",
             error: e.message
+        })
+    }
+})
+
+
+router.get('/gallery', async (req, res) => {
+    try{
+        const images = await prisma.gallery.findMany();
+
+        return res.status(201).json({
+            images
+        })
+    }catch(e){
+        return res.status(500).json({
+            message: "error getting the images"
         })
     }
 })
@@ -306,7 +321,7 @@ router.delete('/gallery/:id', async (req, res) => {
         })
     }catch(e){
         return res.status(500).json({
-            message: "Error deleting the product"
+            message: "Error deleting the image"
         })
     }
 
