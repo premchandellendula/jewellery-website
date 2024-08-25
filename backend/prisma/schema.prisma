@@ -49,6 +49,13 @@ model Works {
   createdAt    DateTime  @default(now())
 }
 
+model Gallery {
+  id           Int       @id    @default(autoincrement())
+  name         String
+  imageUrl     String
+  createdAt    DateTime  @default(now())
+}
+
 model Cart {
   id        Int     @id   @default(autoincrement())
   userId    Int
