@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const { PrismaClient } = require('@prisma/client');
+const adminMiddleware = require('../middleware/adminMiddleware');
 const prisma = new PrismaClient();
 
-router.post('/category', async (req, res) => {
+router.post('/category', adminMiddleware, async (req, res) => {
     const {name, imageUrl} = req.body;
     try{
         const category = await prisma.category.create({
@@ -23,7 +24,7 @@ router.post('/category', async (req, res) => {
     }
 })
 
-router.put('/category/:id', async (req, res) => {
+router.put('/category/:id', adminMiddleware, async (req, res) => {
     const {id} = req.params;
     const {name} = req.body;
 
@@ -47,7 +48,7 @@ router.put('/category/:id', async (req, res) => {
     }
 })
 
-router.delete('/category/:id', async (req, res) => {
+router.delete('/category/:id', adminMiddleware, async (req, res) => {
     try{
         const category = await prisma.category.delete({
             where: {id: parseInt(req.params.id)}

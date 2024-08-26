@@ -2,7 +2,8 @@ const express = require('express')
 const router = express.Router();
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
-const zod = require('zod')
+const zod = require('zod');
+const adminMiddleware = require('../middleware/adminMiddleware');
 
 const productBody = zod.object({
     name: zod.string(),
@@ -14,7 +15,7 @@ const productBody = zod.object({
     category: zod.string()
 })
 
-router.post('/product', async (req, res) => {
+router.post('/product', adminMiddleware, async (req, res) => {
     const result = productBody.safeParse(req.body);
 
     if(!result.success){
@@ -72,7 +73,7 @@ const productPutBody = zod.object({
     imageUrl: zod.string().optional()
 })
 
-router.put('/product/:id', async (req, res) => {
+router.put('/product/:id', adminMiddleware, async (req, res) => {
     const result = productPutBody.safeParse(req.body);
 
     if(!result.success){
@@ -106,7 +107,27 @@ router.put('/product/:id', async (req, res) => {
     }
 })
 
-router.delete('/product/:id', async (req, res) => {
+router.get('/product/:id', adminMiddleware, async (req, res) => {
+    const productId = parseInt(req.params.id, 10);
+
+    try{
+        const product = await prisma.product.findFirst({
+            where: {
+                id: productId
+            }
+        })
+
+        return res.status(201).json({
+            product
+        })
+    }catch(e){
+        return res.status(500).json({
+            message: "error getting the product"
+    })
+    }
+})
+
+router.delete('/product/:id', adminMiddleware, async (req, res) => {
     const productId = parseInt(req.params.id, 10);
     try{
         const product = await prisma.product.delete({
@@ -140,7 +161,7 @@ const workBody = zod.object({
     imageUrl: zod.string()
 })
 
-router.post('/work', async (req, res) => {
+router.post('/work', adminMiddleware, async (req, res) => {
     const result = workBody.safeParse(req.body);
     console.log(result)
 
@@ -183,7 +204,7 @@ const workPutBody = zod.object({
     imageUrl: zod.string().optional()
 })
 
-router.put('/work/:id', async (req, res) => {
+router.put('/work/:id', adminMiddleware, async (req, res) => {
     const result = workPutBody.safeParse(req.body);
 
     if(!result.success){
@@ -217,7 +238,27 @@ router.put('/work/:id', async (req, res) => {
     }
 })
 
-router.delete('/work/:id', async (req, res) => {
+router.get('/work/:id', adminMiddleware, async (req, res) => {
+    const productId = parseInt(req.params.id, 10);
+
+    try{
+        const product = await prisma.works.findFirst({
+            where: {
+                id : productId
+            }
+        })
+
+        return res.status(201).json({
+            product
+        })
+    }catch(e){
+        return res.status(500).json({
+            message: "error getting the recent work"
+        })
+    }
+})
+
+router.delete('/work/:id', adminMiddleware, async (req, res) => {
     const productId = parseInt(req.params.id, 10);
     try{
         const product = await prisma.works.delete({
@@ -262,7 +303,7 @@ const galleryBody = zod.object({
     imageUrl: zod.string()
 })
 
-router.post('/gallery', async (req, res) => {
+router.post('/gallery', adminMiddleware, async (req, res) => {
     const result = galleryBody.safeParse(req.body);
 
     if(!result.success){
@@ -293,20 +334,40 @@ router.post('/gallery', async (req, res) => {
 
 router.get('/gallery', async (req, res) => {
     try{
-        const images = await prisma.gallery.findMany();
+        const products = await prisma.gallery.findMany();
 
         return res.status(201).json({
-            images
+            products
         })
     }catch(e){
         return res.status(500).json({
-            message: "error getting the images"
+            message: "error getting the products"
+        })
+    }
+})
+
+router.get('/gallery/:id', async (req, res) => {
+    const imageId = parseInt(req.params.id, 10);
+
+    try{
+        const image = await prisma.gallery.findFirst({
+            where: {
+                id: imageId
+            }
+        })
+
+        return res.status(201).json({
+            image
+        })
+    }catch(e){
+        return res.status(500).json({
+            message: "error getting the image"
         })
     }
 })
 
 
-router.delete('/gallery/:id', async (req, res) => {
+router.delete('/gallery/:id', adminMiddleware, async (req, res) => {
     const imageId = parseInt(req.params.id, 10);
 
     try{
