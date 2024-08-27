@@ -8,12 +8,17 @@ import Gallery from './pages/gallery/Gallery'
 import Contact from './pages/contact/Contact'
 import Products from './pages/product/Products'
 import AdminLanding from './pages/admin/AdminLanding'
-import AddProduct from './pages/admin/AddProduct'
-import AddWorks from './pages/admin/AddWorks'
 import AdminCategories from './pages/admin/AdminCategories'
 import AdminGallery from './pages/admin/AdminGallery'
 import AdminWorks from './pages/admin/AdminWorks'
 import Homepage from './pages/homepage/Homepage'
+import Works from './pages/works/Works'
+import Work from './pages/works/Work'
+import CategoryProducts from './pages/product/CategoryProducts'
+import Product from './pages/product/Product'
+import AdminProduct from './pages/admin/AdminProduct'
+import AdminCategory from './pages/admin/AdminCategory'
+import AdminWork from './pages/admin/AdminWork'
 
 function App() {
 
@@ -30,14 +35,19 @@ function App() {
           <Route path='/gallery' element={<Gallery />} />
           <Route path='/contact' element={<Contact />} />
           <Route path='/products' element={<Products />} />
+          <Route path='/category/:id/products' element={<CategoryProducts />} />
+          <Route path='/product/:id' element={<Product />} />
+          <Route path='/works' element={<Works />} />
+          <Route path='/works/:id' element={<Work />} />
 
 
           <Route path='/admin/' element={<AdminLanding />} />
           <Route path='/admin/categories' element={<AdminCategories />} />
+          <Route path='/admin/category/:id/products' element={<AdminCategory />} />
           <Route path='/admin/gallery' element={<AdminGallery />} />
           <Route path='/admin/works' element={<AdminWorks />} />
-          <Route path='/admin/product' element={<AddProduct />} />
-          <Route path='/admin/work' element={<AddWorks />} />
+          <Route path='/admin/product/:id' element={<AdminProduct />} />
+          <Route path='/admin/works/:id' element={<AdminWork />} />
         </Routes>
       </BrowserRouter>
     </>

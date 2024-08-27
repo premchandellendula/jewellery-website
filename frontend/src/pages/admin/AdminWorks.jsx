@@ -1,24 +1,19 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AppBarAdmin from '../../components/admin/appbaradmin/AppBarAdmin'
 import Footer from '../../components/footer/Footer'
 import InputBox from '../../components/login/InputBox';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const AdminWorks = () => {
-  const items = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5',
-    'Item 6',
-    'Item 7',
-    'Item 8',
-    'Item 9',
-    'Item 10',
-    'Item 11',
-    'Item 12'
-  ];
+  const [works, setWorks] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:3000/api/v1/works')
+      .then(res => {
+        setWorks(res.data.products)
+      })
+  }, []);
 
   return (
     <div>
@@ -27,7 +22,7 @@ const AdminWorks = () => {
       <AddWork />
 
       <div className='grid grid-cols-3 w-[85%] m-auto my-8'>
-        {items.map((d, idx) => <CategoryCard key={idx} img={d} />)}
+        {works.map((work) => <CategoryCard key={work.id} work={work} />)}
       </div>
 
       <Footer />
@@ -36,10 +31,12 @@ const AdminWorks = () => {
 }
 
 
-function CategoryCard({img}){
-  return <div className="border w-[90%] h-[15rem] m-6 border-gray-600 shadow-sm">
-        {img}
-    </div>
+function CategoryCard({work}){
+  return <Link to={`/admin/works/${work.id}`}>
+      <div className="border w-[90%] h-[15rem] m-6 border-gray-600 shadow-sm cursor-pointer">
+          {work.imageUrl} {work.id}
+      </div>
+  </Link> 
 }
 
 

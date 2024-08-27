@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Appbar from '../../components/appbar/Appbar'
 import Footer from '../../components/footer/Footer'
 import GalleryCard from '../../components/gallery/GalleryCard'
@@ -12,17 +12,23 @@ import braceletImg2 from '../../images/gallery/bracelet2.jpg'
 import necklaceImg1 from '../../images/gallery/necklace1.jpg'
 import necklaceImg2 from '../../images/gallery/necklace2.jpg'
 import necklaceImg3 from '../../images/gallery/necklace3.jpg'
+import axios from 'axios'
 
 const Gallery = () => {
-  const galleryList = [
-    ringImg1, ringImg2, braceletImg2, bangleImg2, braceletImg1, bangleImg1, necklaceImg1, necklaceImg2, necklaceImg3
-  ]
+  const [gallery, setGallery] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:3000/api/v1/gallery')
+      .then(res => {
+        setGallery(res.data.products)
+      })
+  }, []);
   return (
     <div>
       <Appbar />
 
       <div className='grid grid-cols-3 w-[87%] m-auto gap-5 p-10 my-10'>
-        {galleryList.map((image, idx) => <GalleryCard key={idx} img={image} />)}
+        {gallery.map((product, idx) => <GalleryCard key={idx} img={product.imageUrl} id={product.id} />)}
       </div>
 
       <Footer/>
