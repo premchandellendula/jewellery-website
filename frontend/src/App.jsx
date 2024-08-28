@@ -19,6 +19,7 @@ import Product from './pages/product/Product'
 import AdminProduct from './pages/admin/AdminProduct'
 import AdminCategory from './pages/admin/AdminCategory'
 import AdminWork from './pages/admin/AdminWork'
+import Logout from './components/login/Logout'
 
 function App() {
 
@@ -39,6 +40,8 @@ function App() {
           <Route path='/product/:id' element={<Product />} />
           <Route path='/works' element={<Works />} />
           <Route path='/works/:id' element={<Work />} />
+
+          <Route path='/profile' element={<Logout />}/>
 
 
           <Route path='/admin/' element={<AdminLanding />} />

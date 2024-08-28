@@ -6,11 +6,13 @@ import BottomWarning from '../../components/login/BottomWarning'
 import PasswordInput from '../../components/login/PasswordInput'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../auth/AuthProvider'
 
 const Signin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   return (
     <div className='h-screen bg-gray-100 flex justify-center'>
@@ -43,10 +45,10 @@ const Signin = () => {
             })
 
             // console.log(response.data.token)
-            localStorage.setItem(response.data.token);
-
+            localStorage.setItem("token", response.data.token);
+            login();
             if(email && password){
-              navigate('/homepage')
+              navigate('/')
             }
            }}
           />
