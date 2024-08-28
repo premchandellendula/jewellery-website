@@ -45,9 +45,15 @@ const Signin = () => {
             })
 
             // console.log(response.data.token)
-            localStorage.setItem("token", response.data.token);
-            login();
-            if(email && password){
+            const {token, role} = response.data;
+            console.log(token);
+            localStorage.setItem("token", token);
+            // console.log(role);
+            login(role);
+
+            if((role === 'ADMIN') && (email && password)){
+              navigate('/admin');
+            }else if(email && password){
               navigate('/')
             }
            }}

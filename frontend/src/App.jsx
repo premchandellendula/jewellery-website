@@ -11,7 +11,6 @@ import AdminLanding from './pages/admin/AdminLanding'
 import AdminCategories from './pages/admin/AdminCategories'
 import AdminGallery from './pages/admin/AdminGallery'
 import AdminWorks from './pages/admin/AdminWorks'
-import Homepage from './pages/homepage/Homepage'
 import Works from './pages/works/Works'
 import Work from './pages/works/Work'
 import CategoryProducts from './pages/product/CategoryProducts'
@@ -20,15 +19,15 @@ import AdminProduct from './pages/admin/AdminProduct'
 import AdminCategory from './pages/admin/AdminCategory'
 import AdminWork from './pages/admin/AdminWork'
 import Logout from './components/login/Logout'
+import PrivateRoute from './pages/auth/PrivateRoute'
 
 function App() {
 
   return (
     <>
-      <BrowserRouter>
+      {/* <BrowserRouter> */}
         <Routes>
           <Route path='/' element={<Landing />} />
-          <Route path='/homepage' element={<Homepage />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/signin' element={<Signin />} />
           <Route path='/about' element={<About />} />
@@ -43,16 +42,17 @@ function App() {
 
           <Route path='/profile' element={<Logout />}/>
 
-
-          <Route path='/admin/' element={<AdminLanding />} />
-          <Route path='/admin/categories' element={<AdminCategories />} />
-          <Route path='/admin/category/:id/products' element={<AdminCategory />} />
-          <Route path='/admin/gallery' element={<AdminGallery />} />
-          <Route path='/admin/works' element={<AdminWorks />} />
-          <Route path='/admin/product/:id' element={<AdminProduct />} />
-          <Route path='/admin/works/:id' element={<AdminWork />} />
+          <Route path='/admin' element={<PrivateRoute />}>
+            <Route path='/admin/' element={<AdminLanding />} />
+            <Route path='/admin/categories' element={<AdminCategories />} />
+            <Route path='/admin/category/:id/products' element={<AdminCategory />} />
+            <Route path='/admin/gallery' element={<AdminGallery />} />
+            <Route path='/admin/works' element={<AdminWorks />} />
+            <Route path='/admin/product/:id' element={<AdminProduct />} />
+            <Route path='/admin/works/:id' element={<AdminWork />} />
+          </Route>
         </Routes>
-      </BrowserRouter>
+      {/* </BrowserRouter> */}
     </>
   )
 }
