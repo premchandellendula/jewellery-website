@@ -7,6 +7,7 @@ import PasswordInput from '../../components/login/PasswordInput'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthProvider'
+import { setToken } from '../../utils/auth'
 
 const Signin = () => {
   const [email, setEmail] = useState('');
@@ -47,7 +48,7 @@ const Signin = () => {
             // console.log(response.data.token)
             const {token, role} = response.data;
             console.log(token);
-            localStorage.setItem("token", token);
+            setToken(token);
             // console.log(role);
             login(role);
 

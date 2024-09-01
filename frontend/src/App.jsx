@@ -1,4 +1,4 @@
-import {BrowserRouter, Route, Routes} from 'react-router-dom'
+import {BrowserRouter, Route, Routes, useNavigate} from 'react-router-dom'
 import Signup from './pages/login/Signup'
 import Signin from './pages/login/Signin'
 import Landing from './pages/landing/Landing'
@@ -20,39 +20,46 @@ import AdminCategory from './pages/admin/AdminCategory'
 import AdminWork from './pages/admin/AdminWork'
 import Logout from './components/login/Logout'
 import PrivateRoute from './pages/auth/PrivateRoute'
+import { useEffect } from 'react'
+import { isTokenExpired } from './utils/auth'
 
 function App() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(isTokenExpired()){
+      navigate('/');
+    }
+  }, []);
 
   return (
     <>
-      {/* <BrowserRouter> */}
-        <Routes>
-          <Route path='/' element={<Landing />} />
-          <Route path='/signup' element={<Signup />} />
-          <Route path='/signin' element={<Signin />} />
-          <Route path='/about' element={<About />} />
-          <Route path='/categories' element={<Categories />} />
-          <Route path='/gallery' element={<Gallery />} />
-          <Route path='/contact' element={<Contact />} />
-          <Route path='/products' element={<Products />} />
-          <Route path='/category/:id/products' element={<CategoryProducts />} />
-          <Route path='/product/:id' element={<Product />} />
-          <Route path='/works' element={<Works />} />
-          <Route path='/works/:id' element={<Work />} />
+      <Routes>
+        <Route path='/' element={<Landing />} />
+        <Route path='/signup' element={<Signup />} />
+        <Route path='/signin' element={<Signin />} />
+        <Route path='/about' element={<About />} />
+        <Route path='/categories' element={<Categories />} />
+        <Route path='/gallery' element={<Gallery />} />
+        <Route path='/contact' element={<Contact />} />
+        <Route path='/products' element={<Products />} />
+        <Route path='/category/:id/products' element={<CategoryProducts />} />
+        <Route path='/product/:id' element={<Product />} />
+        <Route path='/works' element={<Works />} />
+        <Route path='/works/:id' element={<Work />} />
 
-          <Route path='/profile' element={<Logout />}/>
+        <Route path='/profile' element={<Logout />}/>
 
-          <Route path='/admin' element={<PrivateRoute />}>
-            <Route path='/admin/' element={<AdminLanding />} />
-            <Route path='/admin/categories' element={<AdminCategories />} />
-            <Route path='/admin/category/:id/products' element={<AdminCategory />} />
-            <Route path='/admin/gallery' element={<AdminGallery />} />
-            <Route path='/admin/works' element={<AdminWorks />} />
-            <Route path='/admin/product/:id' element={<AdminProduct />} />
-            <Route path='/admin/works/:id' element={<AdminWork />} />
-          </Route>
-        </Routes>
-      {/* </BrowserRouter> */}
+        <Route path='/admin' element={<PrivateRoute />}>
+          <Route path='/admin' element={<AdminLanding />} />
+          <Route path='/admin/categories' element={<AdminCategories />} />
+          <Route path='/admin/category/:id/products' element={<AdminCategory />} />
+          <Route path='/admin/gallery' element={<AdminGallery />} />
+          <Route path='/admin/works' element={<AdminWorks />} />
+          <Route path='/admin/product/:id' element={<AdminProduct />} />
+          <Route path='/admin/works/:id' element={<AdminWork />} />
+        </Route>
+      </Routes>
     </>
   )
 }

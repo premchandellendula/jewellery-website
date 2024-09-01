@@ -55,8 +55,9 @@ const Signup = () => {
             })
 
             console.log(response.data.token);
-            localStorage.setItem("token" ,response.data.token)
-            login();
+            const { token, role } = response.data;
+            localStorage.setItem("token" , token)
+            login(role);
             if(email && password){
               navigate('/')
             }

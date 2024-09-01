@@ -3,13 +3,17 @@ import { useAuth } from './AuthProvider'
 import { Navigate, Outlet } from 'react-router-dom';
 
 const PrivateRoute = () => {
-    const { isAuthenticated, role } = useAuth();
+    const { isAuthenticated, role, loading } = useAuth();
+
+    if(loading){
+        return null;
+    }
 
     if(!isAuthenticated){
         return <Navigate to={'/'} />
     }
 
-    if(role != 'ADMIN'){
+    if(role !== 'ADMIN'){
         return <Navigate to={'/'} />
     }
 

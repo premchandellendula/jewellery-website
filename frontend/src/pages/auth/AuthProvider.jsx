@@ -6,6 +6,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({children}) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [role, setRole] = useState('');
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -18,13 +19,13 @@ export const AuthProvider = ({children}) => {
             setIsAuthenticated(false);
             setRole('');
         }
-
+        setLoading(false)
     }, []);
 
-    useEffect(() => {
-        console.log("isAuthenticated changed:", isAuthenticated);
-        console.log("Role changed:", role);
-    }, [isAuthenticated, role]);
+    // useEffect(() => {
+    //     console.log("isAuthenticated changed:", isAuthenticated);
+    //     console.log("Role changed:", role);
+    // }, [isAuthenticated, role]);
 
     const login = (userRole) => {
         setIsAuthenticated(true);
@@ -39,11 +40,12 @@ export const AuthProvider = ({children}) => {
         setRole('')
         localStorage.removeItem('auth');
         localStorage.removeItem('role');
+        localStorage.removeItem('token');
         navigate('/')
     }
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout, role }}>
+        <AuthContext.Provider value={{ isAuthenticated, login, logout, role, loading }}>
             {children}
         </AuthContext.Provider>
     )

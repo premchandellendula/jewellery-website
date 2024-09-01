@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import NavList from './NavList'
 import { useAuth } from '../../pages/auth/AuthProvider'
+import FlyoutLink from '../utils/FlyoutLink'
 
 const Appbar = () => {
   const { isAuthenticated, login, logout } = useAuth();
@@ -43,8 +44,7 @@ const Appbar = () => {
               </div>
             </Link>
 
-            <Link to={"/profile"}>
-              <div className='bg-gray-400 rounded-full p-2'>
+            <FlyoutLink>
                 <svg
                   xmlns="http://www.w3.org/2000/svg" 
                   width="22" 
@@ -53,12 +53,9 @@ const Appbar = () => {
                   style={{fill: 'rgba(255, 255, 255)', transform: '', msFilter: ''}}>
                     <path d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm9 11v-1a7 7 0 0 0-7-7h-4a7 7 0 0 0-7 7v1h2v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1z"></path>
                 </svg>
-              </div>
-            </Link>
+              </FlyoutLink>
         </div>
         )}
-
-        
     </div>
   )
 }

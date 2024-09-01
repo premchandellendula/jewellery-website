@@ -99,6 +99,10 @@ function AddCategory(){
               const response = await axios.post("http://localhost:3000/api/v1/admin/category/category", {
                 name, 
                 imageUrl
+              }, {
+                headers: {
+                  Authorization: "Bearer " + localStorage.getItem('token')
+                }
               })
 
               console.log(response.data)
