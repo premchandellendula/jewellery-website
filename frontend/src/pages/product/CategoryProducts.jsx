@@ -3,17 +3,37 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import Appbar from '../../components/appbar/Appbar';
 import Footer from '../../components/footer/Footer';
+import ProductSkeleton from '../../components/loaders/ProductSkeleton';
 
 const CategoryProducts = () => {
     const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
     const { id } = useParams();
 
     useEffect(() => {
         axios.get(`http://localhost:3000/api/v1/category/${id}/products`)
             .then(res => {
                 setProducts(res.data.products)
+                setLoading(false);
             })
     }, [])
+
+    if(loading){
+        return <div>
+            <Appbar />
+
+            <div className='grid grid-cols-3 w-[85%] m-auto gap-y-10 my-20'>
+                <ProductSkeleton />
+                <ProductSkeleton />
+                <ProductSkeleton />
+                <ProductSkeleton />
+                <ProductSkeleton />
+                <ProductSkeleton />
+            </div>
+
+            <Footer />
+        </div>
+    }
 
     return (
         <div>

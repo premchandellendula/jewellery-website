@@ -3,18 +3,31 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Appbar from '../../components/appbar/Appbar';
 import Footer from '../../components/footer/Footer';
+import ProductDetailSkeleton from '../../components/loaders/ProductDetailSkeleton';
 
 const Product = () => {
   const { id } = useParams();
 
   const [product, setProduct] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios.get(`http://localhost:3000/api/v1/product/${id}`)
       .then(res => {
         setProduct(res.data.product);
+        setLoading(false)
       })
   }, [id])
+
+  if(loading){
+    return <div>
+      <Appbar />
+      <div className='w-[85%] m-auto flex mt-12'>
+        <ProductDetailSkeleton />
+      </div>
+    <Footer />
+    </div>
+  }
 
   return (
     <div>

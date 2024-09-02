@@ -14,6 +14,7 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const { login } = useAuth(); 
+  const [loading, setLoading] = useState(false);
 
   return (
     <div className='h-screen bg-gray-100 flex justify-center'>
@@ -45,21 +46,28 @@ const Signup = () => {
             }}
           />
 
-          <Button
+          <Button loading={loading}
            label={"Sign Up"}
            onClick={async () => {
-            const response = await axios.post("http://localhost:3000/api/v1/user/signup", {
-              email,
-              name,
-              password
-            })
-
-            console.log(response.data.token);
-            const { token, role } = response.data;
-            localStorage.setItem("token" , token)
-            login(role);
-            if(email && password){
-              navigate('/')
+            setLoading(true)
+            try{
+              const response = await axios.post("http://localhost:3000/api/v1/user/signup", {
+                email,
+                name,
+                password
+              })
+  
+              console.log(response.data.token);
+              const { token, role } = response.data;
+              localStorage.setItem("token" , token)
+              login(role);
+              if(email && password){
+                navigate('/')
+              }
+            }catch(e){
+              console.error('Failed to signup:', e);
+            }finally{
+              setLoading(false);
             }
            }}
           />

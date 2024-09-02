@@ -4,16 +4,36 @@ import Footer from '../../components/footer/Footer'
 
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import CardSkeleton from '../../components/loaders/CardSkeleton'
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios.get('http://localhost:3000/api/v1/category')
       .then(res => {
         setCategories(res.data.categories);
+        setLoading(false)
       })
   }, [])
+
+  if(loading){
+    return <div>
+      <Appbar />
+      <div className='grid grid-cols-3 w-[87%] m-auto gap-y-10 my-20'>
+        <CardSkeleton />
+        <CardSkeleton />
+        <CardSkeleton />
+        <CardSkeleton />
+        <CardSkeleton />
+        <CardSkeleton />
+      </div>
+      <Footer />
+    </div>
+  }
+
+
   return (
     <div>
       <Appbar />

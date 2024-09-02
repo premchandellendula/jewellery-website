@@ -14,6 +14,7 @@ const Signin = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const { login } = useAuth();
+  const [loading, setLoading] = useState(false);
 
   return (
     <div className='h-screen bg-gray-100 flex justify-center'>
@@ -38,24 +39,32 @@ const Signin = () => {
           />
 
           <Button
-           label={"Sign In"} 
+            loading={loading}
+           label="Sign In" 
            onClick={async () => {
-            const response = await axios.post("http://localhost:3000/api/v1/user/signin", {
-              email,
-              password
-            })
-
-            // console.log(response.data.token)
-            const {token, role} = response.data;
-            console.log(token);
-            setToken(token);
-            // console.log(role);
-            login(role);
-
-            if((role === 'ADMIN') && (email && password)){
-              navigate('/admin');
-            }else if(email && password){
-              navigate('/')
+            setLoading(true);
+            try{
+              const response = await axios.post("http://localhost:3000/api/v1/user/signin", {
+                email,
+                password
+              })
+  
+              // console.log(response.data.token)
+              const {token, role} = response.data;
+              console.log(token);
+              setToken(token);
+              // console.log(role);
+              login(role);
+  
+              if((role === 'ADMIN') && (email && password)){
+                navigate('/admin');
+              }else if(email && password){
+                navigate('/')
+              }
+            }catch(e){
+              console.error('Failed to signin: ', e);
+            }finally{
+              setLoading(false);
             }
            }}
           />
