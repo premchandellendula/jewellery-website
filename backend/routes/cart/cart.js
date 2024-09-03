@@ -12,6 +12,13 @@ const cartBody = zod.object({
 })
 
 router.post('/', authMiddleware, async (req, res) => {
+    const result = cartBody.safeParse(req.body);
+
+    if(!result.success){
+        return res.status(400).json({
+            message: "Incorrect inputs"
+        })
+    }
     const { productId, quantity } = req.body;
 
     // console.log(req.userId);
@@ -32,10 +39,10 @@ router.post('/', authMiddleware, async (req, res) => {
         }
 
         const {name, description, price, imageUrl} = productDetails
-        console.log(name);
-        console.log(description);
-        console.log(price);
-        console.log(imageUrl);
+        // console.log(name);
+        // console.log(description);
+        // console.log(price);
+        // console.log(imageUrl);
         const cartItem = await prisma.cart.create({
             data: { 
                 userId: req.userId, 
@@ -63,7 +70,7 @@ router.get('/', authMiddleware, async (req, res) => {
             // include: {product: true}
         })
 
-        console.log(req.userId);
+        // console.log(req.userId);
         res.json({
             cart
         })
@@ -103,7 +110,7 @@ router.put('/:id', authMiddleware, async (req, res) => {
 
 router.delete('/:id', authMiddleware, async (req, res) => {
     const userId = parseInt(req.userId);
-    console.log(userId)
+    // console.log(userId)
 
     const { id} = req.params;
 

@@ -3,10 +3,15 @@ import Appbar from '../../components/appbar/Appbar'
 import axios from 'axios';
 import Footer from '../../components/footer/Footer';
 import { useCart } from '../../utils/CartContext';
+import PaymentSummary from '../../components/cart/PaymentSummary';
+import CartItemLoader from '../../components/loaders/CartItemLoader';
 
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
+    const [totalQuantity, setTotalQuantity] = useState(0);
+    const [totalPrice, setTotalPrice] = useState(0);
     const { setQuantity } = useCart();
+    const [loading, setLoading] = useState(true);
 
     const fetchProducts = () => {
         axios.get('http://localhost:3000/api/v1/cart', {
@@ -16,17 +21,32 @@ const Cart = () => {
         })
         .then(response => {
             setCartItems(response.data.cart)
-            const totalQuantity = response.data.cart.reduce((acc, item) => acc + item.quantity, 0);
-            setQuantity(totalQuantity);
+            const quantity = response.data.cart.reduce((lastQuantity, item) => lastQuantity + item.quantity, 0);
+            const price = response.data.cart.reduce((lastPrice, item) => lastPrice + (item.price * item.quantity), 0);
+            setTotalQuantity(quantity)
+            setQuantity(quantity);
+            setTotalPrice(price);
         })
         .catch(error => {
-            console.error('Failed to load the cart items:', error)
+            console.error('Failed to load the cart items:', error);
+        })
+        .finally(() => {
+            setLoading(false)
         })
     }
 
     useEffect(() => {
         fetchProducts();
     }, [setQuantity])
+
+
+    if(loading){
+        return <div>
+            <Appbar />
+            <CartItemLoader />
+            <Footer />
+        </div>
+    }
 
     
   return (
@@ -35,10 +55,10 @@ const Cart = () => {
         
         <div className='flex w-[95%] m-auto justify-between mt-10'>
             <div className='w-[75%] pr-4'>
-                {cartItems.map((cart) => <CartCard key={cart.id} cart={cart} setCartItems={setCartItems} setQuantity={setQuantity} onProductDeleted={fetchProducts} />)}
+                {cartItems.map((cart) => <CartCard key={cart.id} cart={cart} setCartItems={setCartItems} setQuantity={setQuantity} onProductDeleted={fetchProducts} fetchProducts={fetchProducts} />)}
             </div>
             <div className=' bg-gray-100 w-[25%] h-60 ml-6 shadow-xl'>
-                <PaymentCard />
+                <PaymentSummary totalQuantity={totalQuantity} totalPrice={totalPrice} />
             </div>
         </div>
 
@@ -47,36 +67,8 @@ const Cart = () => {
   )
 }
 
-function PaymentCard(){
-    const [cartItems, setCartItems] = useState([]);
-    const [quantity, setQuantity] = useState(0);
-    const [totalPrice, setTotalPrice] = useState(0);
-    useEffect(() => {
-        axios.get('http://localhost:3000/api/v1/cart', {
-            headers: {
-                Authorization: "Bearer "+ localStorage.getItem('token')
-            }
-        })
-        .then(response => {
-            setCartItems(response.data.cart)
-        })
 
-        const totalQuantity = cartItems.reduce((lastQuantity, item) => lastQuantity + item.quantity, 0);
-        const totalCost = cartItems.reduce((lastPrice, item) => lastPrice + item.price, 0)
-        setQuantity(totalQuantity); 
-        setTotalPrice(totalCost)
-    }, [cartItems])
-    return <div className='p-6'>
-        <h2 className='text-lg font-semibold'>Order Summary</h2>
-        <div className='flex justify-between mt-2'>
-            <p>Items ({quantity}): </p>
-            <p>Rs. {totalPrice}</p>
-        </div>
-        <button type="button" className="text-white bg-violet-600 hover:bg-violet-800 focus:outline-none font-medium rounded-full text-base px-2 py-2 me-2 mb-2 mt-6 shadow-md w-full">Place your order</button>
-    </div>
-}
-
-function CartCard({cart, setCartItems, setQuantity, onProductDeleted}){
+function CartCard({cart, setCartItems, setQuantity, onProductDeleted, fetchProducts}){
     const [selectedQuantity, setSelectedQuantity] = useState(cart.quantity);
     const [loading, setLoading] = useState(false);
 
@@ -104,6 +96,8 @@ function CartCard({cart, setCartItems, setQuantity, onProductDeleted}){
 
             const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
             setQuantity(totalQuantity)
+
+            fetchProducts();
         }catch(e){
             console.error('Failed to update the quantity: ', e)
         }
@@ -162,9 +156,6 @@ function CartCard({cart, setCartItems, setQuantity, onProductDeleted}){
                 'Delete'
                 )}
               </button>
-              
-                    
-
             </div>
         </div>
     </div>
