@@ -57,12 +57,16 @@ model Gallery {
 }
 
 model Cart {
-  id        Int     @id   @default(autoincrement())
-  userId    Int
-  productId Int
-  quantity  Int      @default(1)
-  user      User     @relation(fields: [userId], references: [id])
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  id          Int     @id   @default(autoincrement())
+  userId      Int
+  productId   Int
+  name        String
+  description String
+  price       Float
+  imageUrl    String
+  quantity    Int      @default(1)
+  user        User     @relation(fields: [userId], references: [id])
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 enum Role {

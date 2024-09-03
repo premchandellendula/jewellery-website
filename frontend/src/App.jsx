@@ -22,6 +22,7 @@ import Logout from './components/login/Logout'
 import PrivateRoute from './pages/auth/PrivateRoute'
 import { useEffect } from 'react'
 import { isTokenExpired } from './utils/auth'
+import Cart from './pages/cart/Cart'
 
 function App() {
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ function App() {
         <Route path='/product/:id' element={<Product />} />
         <Route path='/works' element={<Works />} />
         <Route path='/works/:id' element={<Work />} />
+        <Route path='/cart' element={<Cart />} />
 
         <Route path='/profile' element={<Logout />}/>
 

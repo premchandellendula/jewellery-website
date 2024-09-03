@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom'
 import NavList from './NavList'
 import { useAuth } from '../../pages/auth/AuthProvider'
 import FlyoutLink from '../utils/FlyoutLink'
+import { useCart } from '../../utils/CartContext'
 
 const Appbar = () => {
-  const { isAuthenticated, login, logout } = useAuth();
+  const { isAuthenticated } = useAuth();
+  const { quantity } = useCart();
   return (
     <div className={`w-full flex justify-between px-6 py-4 z-50 border-b shadow-md bg-white`}>
         <Link to={'/'} className='flex items-center'>
@@ -35,12 +37,12 @@ const Appbar = () => {
                   width="36" 
                   height="36" 
                   viewBox="0 0 24 24" 
-                  style={{fill: 'rgba(0, 0, 0, 0.5)', transform: '', msFilter: ''}}>
+                  style={{fill: 'rgba(0, 0, 0, 0.7)', transform: '', msFilter: ''}}>
                   <path d="M21.822 7.431A1 1 0 0 0 21 7H7.333L6.179 4.23A1.994 1.994 0 0 0 4.333 3H2v2h2.333l4.744 11.385A1 1 0 0 0 10 17h8c.417 0 .79-.259.937-.648l3-8a1 1 0 0 0-.115-.921zM17.307 15h-6.64l-2.5-6h11.39l-2.25 6z"></path>
                   <circle cx="10.5" cy="19.5" r="1.5"></circle>
                   <circle cx="17.5" cy="19.5" r="1.5"></circle>
                 </svg>
-                <div className='absolute -top-2 left-4 z-50 text-violet-600 font-semibold text-[17px]'>0</div>
+                <div className='absolute -top-0 left-4 z-50 text-white bg-violet-500 rounded-full font-semibold text-[12px] w-[50%] text-center'>{quantity}</div>
               </div>
             </Link>
 
