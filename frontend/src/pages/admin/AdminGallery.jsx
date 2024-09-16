@@ -38,6 +38,18 @@ function AddImage(){
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const [name, setName] = useState('');
   const [imageUrl, setImageUrl] = useState('');
+  const [preview, setPreview] = useState('');
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0]
+    console.log(file)
+
+    var reader = new FileReader()
+    reader.onloadend = () => {
+      setPreview(reader.result);
+    }
+    reader.readAsDataURL(file);
+  }
 
   return <div className='w-[77%] m-auto text-right pt-10'>
     <button
@@ -65,7 +77,7 @@ function AddImage(){
             </button>
           </div>
 
-          <div>
+          <div className='flex flex-col justify-start'>
             <InputBox
               label={"Name"}
               placeholder={"Rings, Bangles, etc.,"}
@@ -74,20 +86,18 @@ function AddImage(){
               }}
             />
 
-            <InputBox
-              label={"Image Url"}
-              placeholder={"https://google.com/rings"}
-              onChange={(e) => {
-                setImageUrl(e.target.value)
-              }}
-            />
+          <input type="file" onChange={handleFileUpload} className='mt-4' />  
+
           </div>
 
           <button
-            onClick={async () => {
+            onClick={async (e) => {
+              e.preventDefault();
+
+              if(!preview) return;
               const response = await axios.post("http://localhost:3000/api/v1/admin/gallery", {
                 name, 
-                imageUrl
+                imageUrl: preview
               })
 
               console.log(response.data)

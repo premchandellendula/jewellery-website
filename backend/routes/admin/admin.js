@@ -4,6 +4,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const zod = require('zod');
 const adminMiddleware = require('../middleware/adminMiddleware');
+const cloudinary = require('../../utils/cloudinary')
 
 const productBody = zod.object({
     name: zod.string(),
@@ -28,6 +29,10 @@ router.post('/product', adminMiddleware, async (req, res) => {
     const {name, description, price, imageUrl, category} = req.body;
 
     try{
+        const response = await cloudinary.uploader.upload(imageUrl, {
+            folder: "/jewellery-app"
+        })
+
         const existingCategory = await prisma.category.findUnique({
             where: { name: category }
         });
@@ -47,7 +52,7 @@ router.post('/product', adminMiddleware, async (req, res) => {
                 name: name,
                 description: description,
                 price: price,
-                imageUrl: imageUrl,
+                imageUrl: response.url,
                 category: {
                     connect: { id: categoryId }
                 }
@@ -176,12 +181,16 @@ router.post('/work', adminMiddleware, async (req, res) => {
     const {name, description, price, imageUrl} = req.body;
 
     try{
+        const response = await cloudinary.uploader.upload(imageUrl, {
+            folder: "/jewellery-app"
+        })
+        
         const product = await prisma.works.create({
             data: {
                 name: name,
                 description: description,
                 price: price,
-                imageUrl: imageUrl
+                imageUrl: response.url
             }
         })
 
@@ -314,10 +323,14 @@ router.post('/gallery', adminMiddleware, async (req, res) => {
 
     const {name, imageUrl} = req.body;
     try{
+        const response = await cloudinary.uploader.upload(imageUrl, {
+            folder: "/jewellery-app"
+        })
+
         const image = await prisma.gallery.create({
             data: {
                 name: name,
-                imageUrl: imageUrl
+                imageUrl: response.url
             }
         })
         return res.status(201).json({

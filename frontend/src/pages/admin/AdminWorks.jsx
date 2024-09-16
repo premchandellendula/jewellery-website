@@ -46,6 +46,18 @@ function AddWork(){
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState(0);
   const [imageUrl, setImageUrl] = useState('');
+  const [preview, setPreview] = useState('');
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0]
+    console.log(file)
+
+    var reader = new FileReader()
+    reader.onloadend = () => {
+      setPreview(reader.result);
+    }
+    reader.readAsDataURL(file);
+  }
 
   return <div className='w-[84%] m-auto text-right pt-10'>
     <button 
@@ -71,7 +83,7 @@ function AddWork(){
             </button>
           </div>
 
-          <div>
+          <div className='flex flex-col justify-start'>
             <InputBox
               label={"Name"}
               placeholder={"8gm Necklace"}
@@ -97,24 +109,21 @@ function AddWork(){
                 }} type='number' placeholder={"45999.99"} className='w-full h-10 px-2 py-1 border rounded border-slate-200 focus:ring-2 focus:ring-violet-300 focus:outline-none' />
             </div>
 
-            <InputBox
-              label={"Image Url"}
-              placeholder={"https://google.com/rings"}
-              onChange={(e) => {
-                setImageUrl(e.target.value)
-              }}
-            />
+            <input type="file" onChange={handleFileUpload} className='mt-4' />  
+
           </div>
 
           <button
-            onClick={async () => {
-              
+            onClick={async (e) => {
+              e.preventDefault();
+
+              if(!preview) return;
               try { 
                 const response = await axios.post("http://localhost:3000/api/v1/admin/work", {
                   name,
                   description,
                   price,
-                  imageUrl
+                  imageUrl: preview
                 });
 
                 console.log(response.data);

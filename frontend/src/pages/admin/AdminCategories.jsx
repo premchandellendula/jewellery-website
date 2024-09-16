@@ -74,8 +74,35 @@ function CategoryCard({category}){
 function AddCategory({onCategoryAdded}){
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const [name, setName] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
   const [loading, setLoading] = useState(false);
+  const [preview, setPreview] = useState('');
+
+  // const handleFileSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   if(!preview) return;
+
+  //   try{
+  //     const res = await axios.post("http://localhost:3000/upload", {
+  //       image_url: preview
+  //     })
+
+  //     console.log(res)
+  //   }catch(err){
+  //     console.log(err)
+  //   }
+  // }
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0]
+    console.log(file)
+
+    var reader = new FileReader()
+    reader.onloadend = () => {
+      setPreview(reader.result);
+    }
+    reader.readAsDataURL(file);
+  }
 
   return <div className='w-[83%] m-auto text-right pt-10'>
     <button
@@ -103,7 +130,7 @@ function AddCategory({onCategoryAdded}){
             </button>
           </div>
 
-          <div>
+          <div className='flex flex-col justify-start'>
             <InputBox
               label={"Category Name"}
               placeholder={"Rings, Bangles etc.,"}
@@ -112,22 +139,19 @@ function AddCategory({onCategoryAdded}){
               }}
             />
 
-            <InputBox
-              label={"Image Url"}
-              placeholder={"https://google.com/rings"}
-              onChange={(e) => {
-                setImageUrl(e.target.value)
-              }}
-            />
+            <input type="file" onChange={handleFileUpload} className='mt-4' />
           </div>
 
           <button 
-            onClick={async () => {
+            onClick={async (e) => {
+              e.preventDefault();
+
+              if(!preview) return;
               setLoading(true);
               try{
                 const response = await axios.post("http://localhost:3000/api/v1/admin/category/category", {
                   name, 
-                  imageUrl
+                  imageUrl: preview
                 }, {
                   headers: {
                     Authorization: "Bearer " + localStorage.getItem('token')

@@ -3,14 +3,22 @@ const router = express.Router();
 const { PrismaClient } = require('@prisma/client');
 const adminMiddleware = require('../middleware/adminMiddleware');
 const prisma = new PrismaClient();
+const cloudinary = require('../../utils/cloudinary')
 
 router.post('/category', adminMiddleware, async (req, res) => {
     const {name, imageUrl} = req.body;
+    console.log("name: ",name);
+    console.log("imageUrl: ", imageUrl);
     try{
+        const response = await cloudinary.uploader.upload(imageUrl, {
+            folder: "/jewellery-app"
+        })
+
+        console.log("response: ", response);
         const category = await prisma.category.create({
             data: {
                 name: name,
-                imageUrl: imageUrl
+                imageUrl: response.url
             }
         })
 

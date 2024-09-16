@@ -81,7 +81,20 @@ function AddProduct({onProductAdded}){
     const [price, setPrice] = useState(0);
     const [imageUrl, setImageUrl] = useState('');
     const [category, setCategory] = useState('');
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const [preview, setPreview] = useState('');
+
+    const handleFileUpload = (e) => {
+      const file = e.target.files[0]
+      console.log(file)
+  
+      var reader = new FileReader()
+      reader.onloadend = () => {
+        setPreview(reader.result);
+      }
+      reader.readAsDataURL(file);
+    }
+
   
     return <div className='w-[83%] m-auto text-right pt-10'>
       <button
@@ -109,7 +122,7 @@ function AddProduct({onProductAdded}){
               </button>
             </div>
   
-            <div>
+            <div className='flex flex-col justify-start'>
               <InputBox
                 label={"Product Name"}
                 placeholder={"Rings, Bangles etc.,"}
@@ -144,26 +157,21 @@ function AddProduct({onProductAdded}){
                 />
             </div>
 
-            <InputBox
-                label={"Image Url"}
-                placeholder={"https://google.com/chain"}
-                onChange={(e) => {
-                  setImageUrl(e.target.value)
-                }}
-            />
-  
-            
+            <input type="file" onChange={handleFileUpload} className='mt-4' />  
             </div>
   
             <button 
-              onClick={async () => {
+              onClick={async (e) => {
+                e.preventDefault();
+
+                if(!preview) return;
                 setLoading(true)
                 try{
                   const response = await axios.post("http://localhost:3000/api/v1/admin/product/", {
                     name, 
                     description,
                     price,
-                    imageUrl,
+                    imageUrl : preview,
                     category
                   }, {
                     headers: {
