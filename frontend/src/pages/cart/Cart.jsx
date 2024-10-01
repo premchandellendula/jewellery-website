@@ -25,7 +25,7 @@ const Cart = () => {
             const price = response.data.cart.reduce((lastPrice, item) => lastPrice + (item.price * item.quantity), 0);
             setTotalQuantity(quantity)
             setQuantity(quantity);
-            setTotalPrice(price);
+            setTotalPrice(price.toFixed(2));
         })
         .catch(error => {
             console.error('Failed to load the cart items:', error);

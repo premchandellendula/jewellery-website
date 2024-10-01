@@ -238,8 +238,8 @@ const Slider = ({heading}) => {
 
 function ProductCard({product}){
   return <div className="p-2 transition-transform duration-300 flex flex-col">
-    <div className='bg-blue-300 hover:scale-105'>
-      <div className='bg-gray-300 h-40 w-[255px] cursor-pointer'>
+    <div className='bg-blue-300 hover:scale-105 rounded-md'>
+      <div className='bg-gray-300 h-40 w-[255px] cursor-pointer rounded-t-md'>
         {product}
       </div>
 
