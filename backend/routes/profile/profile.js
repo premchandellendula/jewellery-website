@@ -83,7 +83,7 @@ router.post('/address', authMiddleware, async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        const existingAddress = await prisma.address.findUnique({
+        const existingAddress = await prisma.address.findFirst({
             where: { userId: user.id }
         });
     
@@ -173,6 +173,42 @@ router.put('/address', authMiddleware, async (req, res) => {
     }catch(e){
         return res.status(500).json({
             message: "Error updating the address",
+            error: e.message
+        })
+    }
+})
+
+router.get('/address', authMiddleware, async (req, res) => {
+    const userId = req.userId;
+
+    try{
+        const user = await prisma.user.findUnique({
+            where: { id: parseInt(userId) },
+            include: {
+                addresses: true
+            }
+        });
+    
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // console.log(user)
+
+        const address = await prisma.address.findFirst({
+            where: { userId: user.id }
+        });
+    
+        if (!address) {
+            return res.status(404).json({ error: 'No address found. Please use the POST route to add an address.' });
+        }
+
+        return res.status(200).json({
+            address
+        })
+    }catch(e){
+        return res.status(500).json({
+            message: "Error getting the address",
             error: e.message
         })
     }
@@ -274,6 +310,10 @@ router.get('/', authMiddleware, async (req, res) => {
         const user = await prisma.user.findUnique({
             where: {
                 id: parseInt(userId)
+            },
+            include: {
+                addresses: true,
+                contactInfo: true
             }
         })
 

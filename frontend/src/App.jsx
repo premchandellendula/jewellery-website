@@ -23,6 +23,11 @@ import PrivateRoute from './pages/auth/PrivateRoute'
 import { useEffect } from 'react'
 import { isTokenExpired } from './utils/auth'
 import Cart from './pages/cart/Cart'
+import Profile from './pages/profile/Profile'
+import Address from './pages/profile/Address'
+import Orders from './pages/profile/Orders'
+import WishList from './pages/profile/WishList'
+import ChangePassword from './pages/profile/ChangePassword'
 
 function App() {
   const navigate = useNavigate();
@@ -49,8 +54,11 @@ function App() {
         <Route path='/works' element={<Works />} />
         <Route path='/works/:id' element={<Work />} />
         <Route path='/cart' element={<Cart />} />
-
-        <Route path='/profile' element={<Logout />}/>
+        <Route path='/profile' element={<Profile />} />
+        <Route path='/profile/address' element={<Address />} />
+        <Route path='/profile/orders' element={<Orders />} />
+        <Route path='/profile/wishlist' element={<WishList />} />
+        <Route path='/profile/changepassword' element={<ChangePassword />} />
 
         <Route path='/admin' element={<PrivateRoute />}>
           <Route path='/admin' element={<AdminLanding />} />
