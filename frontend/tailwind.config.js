@@ -5,7 +5,11 @@ export default {
         "./src/**/*.{js,ts,jsx,tsx}",
     ],
     theme: {
-        extend: {},
+        extend: {
+            boxShadow: {
+                'custom': '0 0 4px rgba(0, 0, 0, 0.3)'
+              }
+        },
         fontFamily: {
             sans: ['Inter', 'Arial', 'Roboto'],
             moderustic: ['Moderustic']

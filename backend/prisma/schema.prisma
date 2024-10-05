@@ -14,12 +14,14 @@ datasource db {
 }
 
 model User {
-  id         Int     @id    @default(autoincrement())
-  email      String  @unique
-  name       String  
-  password   String
-  role       Role    @default(USER)
-  cart       Cart[]
+  id          Int           @id    @default(autoincrement())
+  email       String        @unique
+  name        String  
+  password    String
+  role        Role          @default(USER)
+  cart        Cart[]
+  contactInfo ContactInfo?
+  addresses   Address[]     
 }
 
 model Product {
@@ -67,6 +69,26 @@ model Cart {
   quantity    Int      @default(1)
   user        User     @relation(fields: [userId], references: [id])
   product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model ContactInfo {
+  id                    Int     @id   @default(autoincrement())
+  phoneNumber           String  
+  alternatePhoneNumber  String? 
+  userId                Int     @unique
+  user                  User    @relation(fields: [userId], references: [id])
+}
+
+model Address {
+  id            Int       @id   @default(autoincrement())
+  flat          String
+  street        String
+  city          String
+  state         String
+  zipCode       String
+  country       String
+  userId        Int
+  user          User      @relation(fields: [userId], references: [id])
 }
 
 enum Role {
