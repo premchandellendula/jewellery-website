@@ -9,7 +9,7 @@ const WishList = () => {
         <Appbar />
 
         <div className='w-[80%] m-auto my-12 flex justify-between'>
-            <div>
+            <div className='w-[27%]'>
                 <LeftCard />
             </div>
 

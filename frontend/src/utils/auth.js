@@ -1,5 +1,5 @@
 export const setToken = (token) => {
-    const expirationTime = new Date().getTime() + 60 * 60 * 1000; 
+    const expirationTime = new Date().getTime() + 300 * 60 * 1000; 
     localStorage.setItem('token', token);
     localStorage.setItem('tokenExpiration', expirationTime);
 };

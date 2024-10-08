@@ -1,17 +1,49 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useAuth } from '../../pages/auth/AuthProvider'
+import axios from 'axios';
+import { isTokenExpired } from '../../utils/auth';
 
 const LeftCard = () => {
   const {logout} = useAuth();
+  const [name, setName] = useState(localStorage.getItem('name') || '')
+
+  const fetchDetails = async () => {
+    if (isTokenExpired()) {
+      logout(); // Trigger logout if token has expired
+      return;
+    }
+    await axios.get('http://localhost:3000/api/v1/profile', {
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem('token')
+        }
+    })
+    .then(response => {
+        const {name} = response.data
+        setName(name || '');
+        localStorage.setItem('name', name || '');
+    })
+    .catch(err => {
+        console.error(err)
+        logout();
+    })
+  }
+  useEffect(() => {
+    if (!name) {
+      fetchDetails();
+    }
+  }, [name]);
+  const firstLetter = name.split(' ')[0] || ''
+  const secondLetter = name.split(' ')[1] || ''
+
   return (
     <div className='bg-violet-500 rounded-xl'>
         <div className='flex bg-violet-500 rounded-xl shadow-lg shadow-violet-600 p-4'>
           <div className='bg-violet-300 text-white font-semibold p-3.5 rounded-full text-xl'>
-            UN
+            {firstLetter[0]}{secondLetter[0]}
           </div>
           <div className='flex justify-center items-center ml-4 text-xl text-white'>
-            Premchand Ellendula
+            {name}
           </div>
         </div>
 
