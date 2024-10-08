@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { MdOutlineAddLocation  } from 'react-icons/md'
 import AddressLoader from '../loaders/AddressLoader';
+import StateDropDown from '../profileaddress/StateDropDown';
+import CountryDropDown from '../profileaddress/CountryDropDown';
 
 const AddressCard = () => {
     const [isAddressAdded, setIsAddressAdded] = useState(false);
@@ -14,7 +16,18 @@ const AddressCard = () => {
     const [state, setState] = useState('');
     const [country, setCountry] = useState('');
     const [address, setAddress] = useState({});
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
+    const [countries, setCountries] = useState([]);
+    const [selectedCountry, setSelectedCountry] = useState({});
+
+
+    useEffect(() => {
+        axios.get('https://valid.layercode.workers.dev/list/countries?format=select&flags=true&value=code')
+          .then(res => {
+            setCountries(res.data.countries)
+            setSelectedCountry(res.data.userSelectValue)
+          })
+    }, [])
 
     const fetchAddress =  () => {
         axios.get('http://localhost:3000/api/v1/profile/address', {
@@ -65,7 +78,7 @@ const AddressCard = () => {
                 city,
                 zipCode,
                 state,
-                country
+                country: selectedCountry.label
             }, {
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem('token')
@@ -94,7 +107,7 @@ const AddressCard = () => {
                 city,
                 zipCode,
                 state,
-                country
+                country: selectedCountry.label
             }, {
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem('token')
@@ -231,12 +244,12 @@ const AddressCard = () => {
                                         <AddressInput label={"Zipcode"} onChange={(e) => {
                                             setZipCode(e.target.value)
                                         }} value={zipCode} />
-                                        <AddressInput label={"State"} onChange={(e) => {
+                                        <StateDropDown label={"State"} onChange={(e) => {
                                             setState(e.target.value)
                                         }} value={state} />
-                                        <AddressInput label={"Country"} onChange={(e) => {
-                                            setCountry(e.target.value)
-                                        }} value={country} />
+                                        <CountryDropDown label={"Country"} onChange={(e) => {
+                                            setSelectedCountry(e)
+                                        }} selectedCountry={selectedCountry} countries={countries} />
                                     </div>
 
                                     <div className='flex justify-end mt-6'>
@@ -265,12 +278,12 @@ const AddressCard = () => {
                                         <AddressInput label={"Zipcode"} onChange={(e) => {
                                             setZipCode(e.target.value)
                                         }} />
-                                        <AddressInput label={"State"} onChange={(e) => {
+                                        <StateDropDown label={"State"} onChange={(e) => {
                                             setState(e.target.value)
-                                        }} />
-                                        <AddressInput label={"Country"} onChange={(e) => {
-                                            setCountry(e.target.value)
-                                        }} />
+                                        }} value={state} />
+                                        <CountryDropDown label={"Country"} onChange={(e) => {
+                                            setSelectedCountry(e)
+                                        }} selectedCountry={selectedCountry} countries={countries} />
                                     </div>
 
                                     <div className='flex justify-end mt-6'>
