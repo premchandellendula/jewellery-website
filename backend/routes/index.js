@@ -9,7 +9,8 @@ const galleryRouter = require('./gallery/gallery');
 const worksRouter = require('./works/works');
 const adminRouter = require('./admin/admin');
 const adminCategoryRouter = require('./admin/adminCategory');
-const profileRouter = require('./profile/profile')
+const profileRouter = require('./profile/profile');
+const ordersRouter = require('./orders/orders');
 
 router.use('/user', userRouter);
 router.use('/product', productRouter);
@@ -20,5 +21,6 @@ router.use('/works', worksRouter);
 router.use('/admin', adminRouter);
 router.use('/admin/category', adminCategoryRouter);
 router.use('/profile', profileRouter);
+router.use('/orders', ordersRouter);
 
 module.exports = router;

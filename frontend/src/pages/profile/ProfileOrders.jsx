@@ -2,8 +2,9 @@ import React from 'react'
 import Appbar from '../../components/appbar/Appbar'
 import LeftCard from '../../components/profile/LeftCard'
 import Footer from '../../components/footer/Footer'
+import ProfileOrdersCmp from '../../components/profile/ProfileOrdersCmp'
 
-const Orders = () => {
+const ProfileOrders = () => {
   return (
     <div>
         <Appbar />
@@ -14,7 +15,7 @@ const Orders = () => {
             </div>
 
             <div className='w-[70%]'>
-                Orders
+              <ProfileOrdersCmp />
             </div>
         </div>
 
@@ -23,4 +24,4 @@ const Orders = () => {
   )
 }
 
-export default Orders
+export default ProfileOrders

@@ -104,7 +104,7 @@ const ProfileCard = () => {
     }
   return (
     <div>
-        <h2 className='text-center text-[32px] mt-4'>Hey Premchand 👋</h2>
+        <h2 className='text-center text-[32px] mt-4'>Hey {name} 👋</h2>
         
         {isEditable ? (
             <div className='shadow-custom rounded-xl h-full px-6 py-2 mt-6'>

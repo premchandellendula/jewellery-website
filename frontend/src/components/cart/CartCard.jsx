@@ -1,94 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import Appbar from '../../components/appbar/Appbar'
-import axios from 'axios';
-import Footer from '../../components/footer/Footer';
-import { useCart } from '../../utils/CartContext';
-import PaymentSummary from '../../components/cart/PaymentSummary';
-import CartItemLoader from '../../components/loaders/CartItemLoader';
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 
-const Cart = () => {
-    const [cartItems, setCartItems] = useState([]);
-    const [totalQuantity, setTotalQuantity] = useState(0);
-    const [totalPrice, setTotalPrice] = useState(0);
-    const { setQuantity } = useCart();
-    const [loading, setLoading] = useState(true);
-
-    const fetchProducts = () => {
-        axios.get('http://localhost:3000/api/v1/cart', {
-            headers: {
-                Authorization : "Bearer " + localStorage.getItem('token')
-            }
-        })
-        .then(response => {
-            setCartItems(response.data.cart)
-            const quantity = response.data.cart.reduce((lastQuantity, item) => lastQuantity + item.quantity, 0);
-            const price = response.data.cart.reduce((lastPrice, item) => lastPrice + (item.price * item.quantity), 0);
-            setTotalQuantity(quantity)
-            setQuantity(quantity);
-            setTotalPrice(price.toFixed(2));
-            console.log(response.data.cart);
-        })
-        .catch(error => {
-            console.error('Failed to load the cart items:', error);
-        })
-        .finally(() => {
-            setLoading(false)
-        })
-    }
-
-    useEffect(() => {
-        fetchProducts();
-    }, [setQuantity])
-
-    const handleOrder = () => {
-        const orderItems = cartItems.map(item => ({
-            productId : item.productId,
-            quantity: item.quantity
-        }))
-        axios.post('http://localhost:3000/api/v1/orders/', {
-            items: orderItems
-        }, {
-            headers: {
-                Authorization: "Bearer " + localStorage.getItem('token')
-            }
-        }).then(response => {
-            console.log('order placed successfully')
-        }).catch(e => {
-            console.error("Failed to place error")
-        })
-    }
-
-
-    if(loading){
-        return <div>
-            <Appbar />
-            <CartItemLoader />
-            <Footer />
-        </div>
-    }
-
-    
-  return (
-    <div>
-        <Appbar />
-        
-        <div className='flex w-[95%] m-auto justify-between mt-10'>
-            <div className='w-[75%] pr-4'>
-                {cartItems.map((cart) => <CartCard key={cart.id} cart={cart} setCartItems={setCartItems} setQuantity={setQuantity} onProductDeleted={fetchProducts} fetchProducts={fetchProducts} />)}
-            </div>
-            <div className=' bg-gray-100 w-[25%] h-60 ml-6 shadow-xl'>
-                <PaymentSummary onClick={handleOrder} totalQuantity={totalQuantity} totalPrice={totalPrice} />
-            </div>
-        </div>
-
-        <Footer />
-    </div>
-  )
-}
-
-
-function CartCard({cart, setCartItems, setQuantity, onProductDeleted, fetchProducts}){
+const CartCard = ({cart, setCartItems, setQuantity, onProductDeleted, fetchProducts}) => {
     const [selectedQuantity, setSelectedQuantity] = useState(cart.quantity);
     const [loading, setLoading] = useState(false);
 
@@ -123,19 +36,17 @@ function CartCard({cart, setCartItems, setQuantity, onProductDeleted, fetchProdu
         }
     }
 
-    return <div className='bg-gray-100 flex p-6 mb-6 shadow-md'>
+    return <Link to={`/product/${cart.id}`}>
+    
+    <div className='bg-gray-100 flex p-6 mb-6 shadow-md'>
         <div className='w-[20%]'>
-            <Link to={`/product/${cart.productId}`}>
-                <img src={cart.imageUrl} alt="hello" className='h-40' />
-            </Link>
+            <img src={cart.imageUrl} alt="hello" className='border border-red-300 h-40' />
         </div>
 
-        <div className='w-[80%] ml-10 flex flex-col px-4'>
-            <Link to={`/product/${cart.productId}`}>
-                <h3 className='text-[1.4rem] hover:underline'>
-                    {cart.name}
-                </h3>
-            </Link>
+        <div className='w-[80%] ml-10 flex flex-col border border-blue-500 px-4'>
+            <h3 className='text-[1.4rem]'>
+                {cart.name}
+            </h3>
             <p className='text-[1.1rem]'>
                 {cart.description}
             </p>
@@ -183,6 +94,7 @@ function CartCard({cart, setCartItems, setQuantity, onProductDeleted, fetchProdu
             </div>
         </div>
     </div>
+    </Link>
 }
 
-export default Cart
+export default CartCard
