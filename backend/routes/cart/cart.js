@@ -120,7 +120,7 @@ router.delete('/:id', authMiddleware, async (req, res) => {
                 id : parseInt(id)
             }
         })
-        console.log(cartItem)
+        // console.log(cartItem)
 
         console.log(cartItem.userId === userId)
         if(!cartItem || cartItem.userId !== userId){

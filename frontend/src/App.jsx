@@ -25,9 +25,10 @@ import { isTokenExpired } from './utils/auth'
 import Cart from './pages/cart/Cart'
 import Profile from './pages/profile/Profile'
 import Address from './pages/profile/Address'
-import Orders from './pages/profile/Orders'
 import WishList from './pages/profile/WishList'
 import ChangePassword from './pages/profile/ChangePassword'
+import ProfileOrders from './pages/profile/ProfileOrders'
+import Orders from './pages/orders/Orders'
 
 function App() {
   const navigate = useNavigate();
@@ -56,9 +57,10 @@ function App() {
         <Route path='/cart' element={<Cart />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/profile/address' element={<Address />} />
-        <Route path='/profile/orders' element={<Orders />} />
+        <Route path='/profile/orders' element={<ProfileOrders />} />
         <Route path='/profile/wishlist' element={<WishList />} />
         <Route path='/profile/changepassword' element={<ChangePassword />} />
+        <Route path='/orders' element={<Orders />} />
 
         <Route path='/admin' element={<PrivateRoute />}>
           <Route path='/admin' element={<AdminLanding />} />

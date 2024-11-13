@@ -19,7 +19,8 @@ const AddressCard = () => {
     const [loading, setLoading] = useState(true);
     const [countries, setCountries] = useState([]);
     const [selectedCountry, setSelectedCountry] = useState({});
-    const [buttonLoading, setButtonLoading] = useState(false)
+    const [buttonLoading, setButtonLoading] = useState(false);
+    const [name, setName] = useState('');
 
 
     useEffect(() => {
@@ -55,6 +56,37 @@ const AddressCard = () => {
     }
     useEffect(() => {
         fetchAddress();
+    }, []);
+
+    // const fetchName = () => {
+    //     axios.get('http://localhost:3000/api/v1/profile', {
+    //         headers: {
+    //             Authorization: "Bearer " + localStorage.getItem('token')
+    //         }
+    //     })
+    //     .then(response => {
+    //         const {name} = response.data
+    //         setName(name || '')
+    //     })
+    //     .catch(err => {
+    //         console.error(err)
+    //     })
+    // }
+
+    useEffect(() => {
+        axios.get('http://localhost:3000/api/v1/profile', {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem('token')
+            }
+        })
+        .then(response => {
+            const {name} = response.data
+            setName(name || '')
+        })
+        .catch(err => {
+            console.error(err)
+        })
+        // fetchName();
     }, []);
 
     useEffect(() => {
@@ -191,7 +223,7 @@ const AddressCard = () => {
 
     return (
         <div>
-            <h2 className='text-center text-[32px] mt-4'>Hey Premchand 👋</h2>
+            <h2 className='text-center text-[32px] mt-4'>Hey {name} 👋</h2>
 
             {isAddressAdded ? (
                 <div>
