@@ -19,28 +19,23 @@ export const AuthProvider = ({children}) => {
             setIsAuthenticated(false);
             setRole('');
         }
-        setLoading(false)
+        setLoading(false);
     }, []);
 
-    // useEffect(() => {
-    //     console.log("isAuthenticated changed:", isAuthenticated);
-    //     console.log("Role changed:", role);
-    // }, [isAuthenticated, role]);
-
     const login = (userRole) => {
-        setIsAuthenticated(true);
-        setRole(userRole)
         localStorage.setItem('auth', 'true');
         localStorage.setItem('role', userRole);
-        console.log("Login called. isAuthenticated:", isAuthenticated, "Role:", userRole);
+        setIsAuthenticated(true);
+        setRole(userRole)
+        console.log("Login called. Role:", userRole);
     }
 
     const logout = () => {
-        setIsAuthenticated(false);
-        setRole('')
         localStorage.removeItem('auth');
         localStorage.removeItem('role');
         localStorage.removeItem('token');
+        setIsAuthenticated(false);
+        setRole('')
         navigate('/')
     }
 

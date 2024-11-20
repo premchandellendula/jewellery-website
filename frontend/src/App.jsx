@@ -29,6 +29,8 @@ import WishList from './pages/profile/WishList'
 import ChangePassword from './pages/profile/ChangePassword'
 import ProfileOrders from './pages/profile/ProfileOrders'
 import Orders from './pages/orders/Orders'
+import UserRoute from './pages/auth/UserRoute'
+import AdminRoute from './pages/auth/AdminRoute'
 
 function App() {
   const navigate = useNavigate();
@@ -55,21 +57,23 @@ function App() {
         <Route path='/works' element={<Works />} />
         <Route path='/works/:id' element={<Work />} />
         <Route path='/cart' element={<Cart />} />
-        <Route path='/profile' element={<Profile />} />
-        <Route path='/profile/address' element={<Address />} />
-        <Route path='/profile/orders' element={<ProfileOrders />} />
-        <Route path='/profile/wishlist' element={<WishList />} />
-        <Route path='/profile/changepassword' element={<ChangePassword />} />
         <Route path='/orders' element={<Orders />} />
 
-        <Route path='/admin' element={<PrivateRoute />}>
-          <Route path='/admin' element={<AdminLanding />} />
-          <Route path='/admin/categories' element={<AdminCategories />} />
-          <Route path='/admin/category/:id/products' element={<AdminCategory />} />
-          <Route path='/admin/gallery' element={<AdminGallery />} />
-          <Route path='/admin/works' element={<AdminWorks />} />
-          <Route path='/admin/product/:id' element={<AdminProduct />} />
-          <Route path='/admin/works/:id' element={<AdminWork />} />
+        <Route path='/profile' element={<UserRoute />}>
+          <Route index element={<Profile />} />
+          <Route path='address' element={<Address />} />
+          <Route path='orders' element={<ProfileOrders />} />
+          <Route path='wishlist' element={<WishList />} />
+          <Route path='changepassword' element={<ChangePassword />} />
+        </Route>
+        <Route path='/admin' element={<AdminRoute />}>
+          <Route index element={<AdminLanding />} />
+          <Route path='categories' element={<AdminCategories />} />
+          <Route path='category/:id/products' element={<AdminCategory />} />
+          <Route path='gallery' element={<AdminGallery />} />
+          <Route path='works' element={<AdminWorks />} />
+          <Route path='product/:id' element={<AdminProduct />} />
+          <Route path='works/:id' element={<AdminWork />} />
         </Route>
       </Routes>
     </>
