@@ -138,20 +138,35 @@
 
 
 import React, { useRef, useState } from 'react'
+import { chains, rings } from '../utils/bangles';
+import { useNavigate } from 'react-router-dom';
+import { bracelets } from '../utils/bracelets';
 
 const Slider = ({heading}) => {
-    const items = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5',
-    'Item 6',
-    'Item 7',
-    'Item 8',
-    'Item 9',
-    'Item 10'
-  ];
+
+  const navigate = useNavigate();
+  //   const items = [
+  //   'Item 1',
+  //   'Item 2',
+  //   'Item 3',
+  //   'Item 4',
+  //   'Item 5',
+  //   'Item 6',
+  //   'Item 7',
+  //   'Item 8',
+  //   'Item 9',
+  //   'Item 10'
+  // ];
+
+  let items;
+
+  if(heading === 'Bracelets'){
+    items = bracelets;
+  }else if(heading === 'Chains'){
+    items = chains;
+  }else if(heading === 'Rings'){
+    items = rings;
+  }
 
   const listRef = useRef();
   const [slideNumber, setSlideNumber] = useState(0);
@@ -178,7 +193,15 @@ const Slider = ({heading}) => {
     <div className='my-16'>
       <div className='flex items-center'>
            <h2 className='text-xl ml-2'>{heading}</h2>
-           <button className="text-violet-700 rounded-full flex items-center relative group ml-2 gap-2 overflow-hidden w-20">
+           <button onClick={() => {
+            if(heading === 'Rings'){
+              navigate('/category/22/products')
+            }else if(heading === 'Bracelets'){
+              navigate('/category/23/products')
+            }else if(heading === 'Chains'){
+              navigate('/category/24/products')
+            }
+           }} className="text-violet-700 rounded-full flex items-center relative group ml-2 gap-2 overflow-hidden w-20">
              <p className='absolute opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap text-xs'>Explore all</p>
              <svg 
                  xmlns="http://www.w3.org/2000/svg" 
@@ -213,7 +236,7 @@ const Slider = ({heading}) => {
           <div
             className="flex transition-transform duration-500 ease-in-out"      
           >
-            {items.map((item, index) => <ProductCard key={index} product={item} />)}
+            {items.map((item, index) => <ProductCard key={index} img={item.img} name={item.name} heading={heading} navigate={navigate} />)}
           </div>
         </div>
         <button
@@ -236,16 +259,24 @@ const Slider = ({heading}) => {
   )
 }
 
-function ProductCard({product}){
+function ProductCard({img, name, heading, navigate}){
   return <div className="p-2 transition-transform duration-300 flex flex-col">
-    <div className='bg-blue-300 hover:scale-105 rounded-md'>
-      <div className='bg-gray-300 h-40 w-[255px] cursor-pointer rounded-t-md'>
-        {product}
+    <div className='border shadow-md hover:scale-105 rounded-md h-72'>
+      <div className='bg-gray-300 w-[255px] cursor-pointer rounded-t-md h-[70%]'>
+        <img src={img} alt="hello" className='h-full w-full object-cover rounded-t-md shadow' draggable="false"/>
       </div>
 
-      <div className='flex flex-col justify-center items-center px-2 py-1 gap-y-1'>
-        {product}
-        <button type="button" className="text-white bg-violet-600 hover:bg-violet-800 focus:outline-none font-medium rounded-lg text-sm px-3 py-2.5 me-2 mb-2 shadow-md w-[40%]">Check out</button>
+      <div className='flex flex-col justify-center items-center px-2 py-1 gap-y-1 h-[30%]'>
+        {name}
+        <button onClick={() => {
+            if(heading === 'Rings'){
+              navigate('/category/22/products')
+            }else if(heading === 'Bracelets'){
+              navigate('/category/23/products')
+            }else if(heading === 'Chains'){
+              navigate('/category/24/products')
+            }
+           }} type="button" className="text-white bg-violet-600 hover:bg-violet-800 focus:outline-none font-medium rounded-lg text-sm px-3 py-2.5 me-2 mb-2 shadow-md w-[40%]">Check out</button>
       </div>    
     </div>
   </div>

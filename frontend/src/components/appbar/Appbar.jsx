@@ -11,8 +11,8 @@ const Appbar = () => {
   return (
     <div className={`w-full flex justify-between px-6 py-4 z-50 border-b shadow-md bg-white`}>
         <Link to={'/'} className='flex items-center'>
-            <div className='flex flex-col justify-center text-2xl font-semibold cursor-pointer'>
-                LogoReveal
+            <div className='flex flex-col justify-center text-2xl font-semibold cursor-pointer ml-2'>
+                Ellendula.
             </div>
         </Link>
 

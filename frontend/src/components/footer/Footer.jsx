@@ -2,14 +2,21 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 const Footer = () => {
+
+    const goTop = () => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+    };
   return (
     <div className='py-10 mt-10'>
         <div className='flex justify-between w-[85%] m-auto'>
             {/* logo side */}
             <div className='flex flex-col w-1/3 gap-8'>
                 <Link to={"/"} className="flex flex-col justify-center text-2xl font-semibold cursor-pointer">
-                    <div className="text-black text-3xl">
-                        LogoReveal
+                    <div onClick={goTop} className="text-black text-3xl">
+                        Ellendula.
                     </div>
                 </Link>
                 <p className="text-[15px] font-medium text-[#646464]">
@@ -34,22 +41,33 @@ const Footer = () => {
 
                 <span className="top-[33px] absolute w-[7rem] h-[4px] bg-violet-400"></span>
 
-                <p className="text-[16px] hover:text-violet-600 cursor-pointer text-[#646464] font-medium">
-                Bangles
+                <Link to={'/category/22/products'}>
+                    <p className="text-[16px] hover:text-violet-600 cursor-pointer text-[#646464] font-medium">
+                    Rings
+                    </p>
+                </Link>
+                <Link to={'/category/23/products'}>
+                    <p className="text-[16px] hover:text-violet-600 cursor-pointer text-[#646464] font-medium">
+                    Bracelets
+                    </p>
+                </Link>
+
+                <Link to={'/category/24/products'}>
+                    <p className="text-[16px] hover:text-violet-600 cursor-pointer text-[#646464] font-medium">
+                    Chains
+                    </p>
+                </Link>
+                <Link to={'/category/25/products'}>
+                    <p className="text-[16px] hover:text-violet-600 cursor-pointer text-[#646464] font-medium">
+                    Bangles
+                    </p>
+                </Link>
+
+                <p className="text-[16px] hover:text-violet-600 text-[#646464] font-medium cursor-not-allowed">
+                    Necklaces
                 </p>
-                <p className="text-[16px] hover:text-violet-600 cursor-pointer text-[#646464] font-medium">
-                Bracelets
-                </p>
-                <p className="text-[16px] hover:text-violet-600 cursor-pointer text-[#646464] font-medium">
-                Chains
-                </p>
-                <p className="text-[16px] hover:text-violet-600 cursor-pointer text-[#646464] font-medium">
-                Necklaces
-                </p>
-                <p className="text-[16px] hover:text-violet-600 cursor-pointer text-[#646464] font-medium">
-                Rings
-                </p>
-                <p className="text-[16px] hover:text-violet-600 cursor-pointer text-[#646464] font-medium">
+
+                <p className="text-[16px] hover:text-violet-600 cursor-not-allowed text-[#646464] font-medium">
                 Recent Works
                 </p>
             </div>

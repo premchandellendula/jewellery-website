@@ -31,6 +31,7 @@ import ProfileOrders from './pages/profile/ProfileOrders'
 import Orders from './pages/orders/Orders'
 import UserRoute from './pages/auth/UserRoute'
 import AdminRoute from './pages/auth/AdminRoute'
+import ScrollToTop from './components/utils/ScrollToTop'
 
 function App() {
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ function App() {
 
   return (
     <>
+      <ScrollToTop />
       <Routes>
         <Route path='/' element={<Landing />} />
         <Route path='/signup' element={<Signup />} />
