@@ -2,6 +2,7 @@ import React from 'react'
 import Appbar from '../../components/appbar/Appbar'
 import profileImg from '../../../public/profile.webp'
 import Footer from '../../components/footer/Footer'
+import { Link } from 'react-router-dom'
 
 const About = () => {
   return (
@@ -41,7 +42,9 @@ const About = () => {
                     <span className='font-semibold'>Address</span> : 3-19, Hanuman Temple, Venkatraopet, Medipalle, Jagtial, Telangana, 505453.
                 </h3>
                 <div className='p-4'>
-                    <button type="button" className="text-white bg-violet-600 hover:bg-violet-800 focus:outline-none font-medium rounded-lg text-base px-5 py-2.5 me-2 mb-2 shadow-md w-[60%]">Check out Recent works</button>
+                    <Link to={'/works'}>
+                        <button type="button" className="text-white bg-violet-600 hover:bg-violet-800 focus:outline-none font-medium rounded-lg text-base px-5 py-2.5 me-2 mb-2 shadow-md w-[60%]">Check out Recent works</button>
+                    </Link>
                 </div>
             </div>
         </div>
