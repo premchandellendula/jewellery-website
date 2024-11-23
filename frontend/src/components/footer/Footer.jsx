@@ -67,9 +67,11 @@ const Footer = () => {
                     Necklaces
                 </p>
 
-                <p className="text-[16px] hover:text-violet-600 cursor-not-allowed text-[#646464] font-medium">
-                Recent Works
-                </p>
+                <Link to={'/works'}>
+                    <p className="text-[16px] hover:text-violet-600 text-[#646464] font-medium">
+                        Recent Works
+                    </p>
+                </Link>
             </div>
 
             {/* right div */}

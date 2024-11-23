@@ -35,7 +35,7 @@ const Gallery = () => {
   return (
     <div>
       <Appbar />
-
+      <p className='text-3xl font-semibold w-[82%] m-auto mt-10'>Coming soon....</p>
       <div className='grid grid-cols-3 w-[87%] m-auto gap-5 p-10 my-10'>
         {gallery.map((product, idx) => <GalleryCard key={idx} img={product.imageUrl} id={product.id} />)}
       </div>
