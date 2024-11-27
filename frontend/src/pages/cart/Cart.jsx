@@ -92,7 +92,7 @@ function CartCard({cart, setCartItems, setQuantity, onProductDeleted, fetchProdu
     const [selectedQuantity, setSelectedQuantity] = useState(cart.quantity);
     const [loading, setLoading] = useState(false);
 
-    const handleQuantityChange = async (e) => {
+    const handleQuantityChange = async (e, itemId) => {
         const newQuantity = Number(e.target.value);
         setSelectedQuantity(newQuantity)
 
@@ -105,28 +105,24 @@ function CartCard({cart, setCartItems, setQuantity, onProductDeleted, fetchProdu
                 }
             })
 
-            const response = await axios.get('http://localhost:3000/api/v1/cart', {
-                headers: {
-                    Authorization: "Bearer " + localStorage.getItem('token')
-                }
-            })
-            
-            const cartItems = response.data.cart
-            setCartItems(cartItems)
+            setCartItems((prevCartItems) =>
+                prevCartItems.map((item) => 
+                    item.id === itemId ? {...item, quantity: newQuantity} : item
+                )
+            )
 
-            const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-            setQuantity(totalQuantity)
-
-            fetchProducts();
+            setQuantity((prevQuantity) =>
+                prevQuantity - cart.quantity + newQuantity
+            );
         }catch(e){
             console.error('Failed to update the quantity: ', e)
         }
     }
 
     return <div className='bg-gray-100 flex p-6 mb-6 shadow-md'>
-        <div className='w-[20%]'>
+        <div className='w-[20%] bg-white z-10'>
             <Link to={`/product/${cart.productId}`}>
-                <img src={cart.imageUrl} alt="hello" className='h-40' />
+                <img src={cart.imageUrl} alt="hello" className='h-40 w-64' />
             </Link>
         </div>
 
@@ -143,7 +139,7 @@ function CartCard({cart, setCartItems, setQuantity, onProductDeleted, fetchProdu
             <div className='flex h-10 justify-between items-center'>
               <div className='flex'>
                 <p className='text-lg font-medium'>Qty: </p>
-                <select value={selectedQuantity} onChange={handleQuantityChange}
+                <select value={selectedQuantity} onChange={(e) => handleQuantityChange(e, cart.id)}
                 className=" text-[14px] border border-gray-400 border-solid outline-none">
                     {[1,2,3,4,5].map((quantity) => (
                         <option key={quantity} value={quantity} className={quantity === selectedQuantity ? 'bg-violet-300' : ''}>{quantity}</option>
