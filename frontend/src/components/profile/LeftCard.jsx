@@ -9,10 +9,7 @@ const LeftCard = () => {
   const [name, setName] = useState(localStorage.getItem('name') || '')
 
   const fetchDetails = async () => {
-    if (isTokenExpired()) {
-      logout(); // Trigger logout if token has expired
-      return;
-    }
+
     await axios.get('http://localhost:3000/api/v1/profile', {
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token')
