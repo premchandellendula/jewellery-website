@@ -36,12 +36,6 @@ import ScrollToTop from './components/utils/ScrollToTop'
 function App() {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if(isTokenExpired()){
-      navigate('/');
-    }
-  }, []);
-
   return (
     <>
       <ScrollToTop />

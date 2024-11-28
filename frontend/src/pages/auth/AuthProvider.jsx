@@ -9,12 +9,30 @@ export const AuthProvider = ({children}) => {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
+    const setLogoutTimer = () => {
+        const expirationTime = localStorage.getItem('tokenExpiration');
+        const currentTime = new Date().getTime();
+    
+        if (expirationTime) {
+          const remainingTime = expirationTime - currentTime;
+    
+          if (remainingTime > 0) {
+            setTimeout(() => {
+              logout();
+            }, remainingTime); // Automatically log out when time expires
+          } else {
+            logout(); // Token already expired, log out immediately
+          }
+        }
+    };
+
     useEffect(() => {
         const auth = localStorage.getItem('auth');
         const userRole = localStorage.getItem('role');
         if(auth === 'true' && userRole){
             setIsAuthenticated(true);
             setRole(userRole);
+            setLogoutTimer();
         }else {
             setIsAuthenticated(false);
             setRole('');
@@ -26,7 +44,8 @@ export const AuthProvider = ({children}) => {
         localStorage.setItem('auth', 'true');
         localStorage.setItem('role', userRole);
         setIsAuthenticated(true);
-        setRole(userRole)
+        setRole(userRole);
+        setLogoutTimer();
         console.log("Login called. Role:", userRole);
     }
 
